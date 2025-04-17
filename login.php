@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include('config/database.php');
-
+$error = "";
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -12,21 +12,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $result = $query->get_result();
 
     if ($result->num_rows === 1) {
-        $user = $result->fetch_assoc();
-        $storedPassword = $user['password'];
+        $row = $result->fetch_assoc();
+        $storedPassword = $row['password'];
 
         
         if (password_verify($password, $storedPassword) || $password === $storedPassword) {
             // Login successful
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            header("Location: dashboard.php");
-            exit();
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['username'] = $row['username'];
+            $_SESSION['level'] = $row['level'];
+           
+            if($_SESSION['level'] == 'admin'){
+                header("Location: admin/admin_sidebar.php");
+                exit();
+            }
         } else {
-            echo "Invalid password.";
+            $error = "Invalid password.";
         }
     } else {
-        echo "User not found.";
+        $error = "User not found.";
     }
 }
 ?>
@@ -41,13 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 </head>
 <body>
     <div class="container">
+        <div class="error-message">
+            <?php echo $error?>
+        </div>
         <h2>Login</h2>
-        <form action="#" method="post">
+        <form action="login.php" method="post">
             <div>
-                <input type="text" placeholder="Username" required>
+                <input type="text" placeholder="Username" name="username" required>
             </div>
             <div>
-                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Password" name="password" required>
             </div>
             <div>
                 <button type="submit">Login</button>
