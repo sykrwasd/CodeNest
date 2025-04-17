@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $user = $result->fetch_assoc();
         $storedPassword = $user['password'];
 
-        // Check if the password is hashed (starts with $2y$ or similar)
+        
         if (password_verify($password, $storedPassword) || $password === $storedPassword) {
             // Login successful
             $_SESSION['user_id'] = $user['id'];
@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <div>
                 <button type="submit">Login</button>
             </div>
+            <a>New Staff? Verify <a href="register.php">Here.</a></a>
         </form>
     </div>
 </body>

@@ -29,7 +29,8 @@ form div {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="email"]  {
     width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
