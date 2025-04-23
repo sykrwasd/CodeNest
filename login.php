@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <title>Login Page</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body id="login">
     <div class="container">
         <div class="error-message">
             <?php echo $error?>

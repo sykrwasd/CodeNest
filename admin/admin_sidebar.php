@@ -35,7 +35,7 @@ $page = $_GET['page'] ?? 'dashboard'; //set default page to dashboard if not set
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="staff_add.php" class="sidebar-link">
                         <i class="lni lni-agenda"></i>
                         <span>Add Employee</span>
                     </a>

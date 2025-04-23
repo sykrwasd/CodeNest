@@ -157,11 +157,4 @@ a.sidebar-link:hover {
 
 }
 
-#add{
-    width: 100px;
-}
 
-#add:hover {
-    transform: scale(1.1);
-    transition: transform 0.3s ease-in-out;
-}
