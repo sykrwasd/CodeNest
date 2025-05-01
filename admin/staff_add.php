@@ -1,3 +1,49 @@
+<?php 
+
+  include('../config/database.php');
+  
+  if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    // Getting the Staff's full name 
+    $firstname = $_POST['fname'];
+    $lastname = $_POST['lname'];
+
+    $fullname = $firstname . ' ' . $lastname;
+
+    //Other staff information
+    $dob = $_POST['dob'];
+    $pnum = $_POST['pnum'];
+    $email = $_POST['email'];
+    $position = $_POST['position'];
+    $citizen = $_POST['citizen'];
+    $salary = $_POST['salary'];
+
+    // full staff address
+    $address1 = $_POST['address1'];
+    $address2 = $_POST['address2'];
+    $postcode = $_POST['postcode'];
+    $state = $_POST['state'];
+    $country = $_POST['country'];
+  
+    $fulladress = $address1 . ' ' . $address2 . ' ' . $postcode . ' ' . $state . ' ' . $country;
+
+
+    $insertQuery = $conn -> prepare('INSERT INTO staff (fullname,dob,phone_number,email,position,citizen_id,salary,address) VALUES (?,?,?,?,?,?,?,?)');
+    $insertQuery -> bind_param('ssssssis',$fullname,$dob,$pnum,$email,$position,$citizen,$salary,$fulladress);
+    $insertQuery ->execute();
+    //$result = $insertQuery->get_result(); get_result untuk SELECT sahaja
+
+    if($insertQuery->affected_rows > 0){ //check data masuk ke tidka
+      $success = "data entered succesfully";
+    }
+    
+  }
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,78 +61,23 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <aside id="sidebar">
-            <div class="d-flex">
-                <button class="toggle-btn" type="button">
-                    <i class="lni lni-grid-alt"></i>
-                </button>
-                <div class="sidebar-logo">
-                    <a href="#">Code<span>Nest</span></a>
-                </div>
-            </div>
-            <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="?page=dashboard" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>DashBoard</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-agenda"></i>
-                        <span>Add Employee</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-popup"></i>
-                        <span>View Employee</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-cog"></i>
-                        <span>Payroll Manager</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-cog"></i>
-                        <span>Performance Review</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-cog"></i>
-                        <span>Setting</span>
-                    </a>
-                </li>
-            </ul>
-            <div class="sidebar-footer">
-                <a href="#" class="sidebar-link">
-                    <i class="lni lni-exit"></i>
-                    <span>Logout</span>
-                </a>
-            </div>
-        </aside>
-            <div class="main p-3 ">
+   
               <h2 style="text-align: center; margin-top: 0px;"> Staff Registration</h2>
                 <div class="container">
                 
-                  <form method="post" action="add_emp.html">
+                  <form method="post" action="staff_add.php">
 
                       <div class="row justify-content-center">
                         <div class="col-3">
                           <div class="form-group">
                             <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name" />
+                            <input type="text" class="form-control" name="fname" id="firstName" placeholder="First Name" />
                           </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                               <label for="lastName">Last Name</label>
-                              <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last Name" />
+                              <input type="text" class="form-control" name="lname" id="lastName" placeholder="Last Name" />
                             </div>
                         </div>
                         <div class="col-3">
@@ -101,7 +92,7 @@
                         <div class="col-3">
                           <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number" />
+                            <input type="text" class="form-control" name="pnum" id="phone" placeholder="Phone Number" />
                           </div>
                         </div>
                         <div class="col-4">
@@ -128,7 +119,7 @@
                       <div class="col-2">
                         <div class="form-group">
                           <label for="citizenId">Citizen ID</label>
-                          <input type="text" class="form-control" name="citizenId" id="citizenId" placeholder="Citizen ID" />
+                          <input type="text" class="form-control" name="citizen" id="citizenId" placeholder="Citizen ID" />
                         </div>
                       </div>
                       <div class="col-2">
@@ -181,11 +172,11 @@
                           <input type="text" class="form-control" name="country" id="country" placeholder="Country" />
                         </div>
                       </div>
-</div>
+                  </div>
 
 
                   <div class="row justify-content-center mt-3">
-                    <button class="btn btn-primary">Add</button>
+                    <button class="btn btn-primary" id="add">Add</button>
                   </div>
 
                   </form>
@@ -193,8 +184,7 @@
                     
                 </div>
             </div>
-        </div>
-    </div>
+  
 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
