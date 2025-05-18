@@ -18,6 +18,9 @@
             <div>
                 <input type="email" placeholder="Email" required>
             </div>
+             <div>
+                <input type="text" placeholder=" IC Number" required>
+            </div>
             <div>
                 <input type="text" placeholder="Username" required>
             </div>

@@ -23,26 +23,34 @@
                 <h2 style="text-align: center;">Staff List</h2>
                 <table class="table table-bordered">
                         <thead>
-                      <tr>
-                        <th scope="col">#</th>
+                      
+                    <tr class="table-primary">
+                        <th scope="col">Staff Image</th>
                         <th scope="col">Full Name</th>
                         <th scope="col">Phone Number</th>
                         <th scope="col">Company Email</th>
                         <th scope="col">Position</th>
                         <th scope="col">Salary</th>
                         <th scope="col">Address</th>
-                      </tr>
+                      </>
                       <?php 
                         $i = 1;
                         $viewQuery = $conn -> prepare('SELECT * from staff');
                                                 $viewQuery  -> execute();
                                                 $result = $viewQuery -> get_result();
                         while ($row = $result->fetch_assoc()) {
+                        
                         ?>
                         <tr>
-                            <th scope="row"><?php echo $i++; ?></th>
+                            <th scope="row">
+                                <img src="../img/<?php echo $row['imagepath'];?>" width="60">
+                            </th>
                             <td><?php echo $row['fullname']; ?></td>
-                        
+                            <td><?php echo $row['phone_number']; ?></td>
+                            <td><?php echo $row['email']; ?></td>
+                            <td><?php echo $row['position']; ?></td>
+                            <td><?php echo $row['salary']; ?></td>
+                            <td><?php echo $row['address']; ?></td>
                         </tr>
                         <?php } ?>
                       </thead>

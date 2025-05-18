@@ -1,39 +1,4 @@
-<?php 
-session_start();
-include('config/database.php');
-$error = "";
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
 
-    $query = $conn->prepare('SELECT * FROM user WHERE username = ?');
-    $query->bind_param('s', $username);
-    $query->execute();
-    $result = $query->get_result();
-
-    if ($result->num_rows === 1) {
-        $row = $result->fetch_assoc();
-        $storedPassword = $row['password'];
-
-        
-        if (password_verify($password, $storedPassword) || $password === $storedPassword) {
-            // Login successful
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['username'] = $row['username'];
-            $_SESSION['level'] = $row['level'];
-           
-            if($_SESSION['level'] == 'admin'){
-                header("Location: admin/admin_sidebar.php");
-                exit();
-            }
-        } else {
-            $error = "Invalid password.";
-        }
-    } else {
-        $error = "User not found.";
-    }
-}
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,14 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body id="login">
-    <div class="container">
-        <div class="error-message">
-            <?php echo $error?>
-        </div>
+    <div class="container"
         <h2>Login</h2>
-        <form action="login.php" method="post">
+        <form action="functions/login.php" method="post">
             <div>
-                <input type="text" placeholder="Username" name="username" required>
+                <input type="text" placeholder="Email" name="username" required>
             </div>
             <div>
                 <input type="password" placeholder="Password" name="password" required>

@@ -1,55 +1,8 @@
-<?php 
-
-  include('../config/database.php');
-  
-  if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-    // Getting the Staff's full name 
-    $firstname = $_POST['fname'];
-    $lastname = $_POST['lname'];
-
-    $fullname = $firstname . ' ' . $lastname;
-
-    //Other staff information
-    $dob = $_POST['dob'];
-    $pnum = $_POST['pnum'];
-    $email = $_POST['email'];
-    $position = $_POST['position'];
-    $citizen = $_POST['citizen'];
-    $salary = $_POST['salary'];
-
-    // full staff address
-    $address1 = $_POST['address1'];
-    $address2 = $_POST['address2'];
-    $postcode = $_POST['postcode'];
-    $state = $_POST['state'];
-    $country = $_POST['country'];
-  
-    $fulladress = $address1 . ' ' . $address2 . ' ' . $postcode . ' ' . $state . ' ' . $country;
-
-
-    $insertQuery = $conn -> prepare('INSERT INTO staff (fullname,dob,phone_number,email,position,citizen_id,salary,address) VALUES (?,?,?,?,?,?,?,?)');
-    $insertQuery -> bind_param('ssssssis',$fullname,$dob,$pnum,$email,$position,$citizen,$salary,$fulladress);
-    $insertQuery ->execute();
-    //$result = $insertQuery->get_result(); get_result untuk SELECT sahaja
-
-    if($insertQuery->affected_rows > 0){ //check data masuk ke tidka
-      $success = "data entered succesfully";
-    }
-    
-  }
-
-
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sidebar With Bootstrap</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
@@ -65,7 +18,8 @@
               <h2 style="text-align: center; margin-top: 0px;"> Staff Registration</h2>
                 <div class="container">
                 
-                  <form method="post" action="staff_add.php">
+                  <form method="post" action="../functions/add_staff.php" enctype="multipart/form-data">
+
 
                       <div class="row justify-content-center">
                         <div class="col-3">
