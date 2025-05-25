@@ -15,14 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $row = $result->fetch_assoc();
         $storedPassword = $row['userPassword'];
 
-        if($storedPassword == " "){
+        if($storedPassword == "newuser" ){
             echo '<script>
                 alert("New User");
             </script>';
             header("Location: ./register.php");
         }
        
-
         // Password check - supports hashed or plain for now
         if (password_verify($password, $storedPassword) || $password == $storedPassword) {
             $_SESSION['userID'] = $row['userEmail'];

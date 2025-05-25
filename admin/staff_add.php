@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          $insertUser = "INSERT INTO user (
            userEmail, userPassword,	category
         ) VALUES (
-           '$email',' ','staff'
+           '$email','newuser','staff'
         )";
 
         $result = mysqli_query($conn, $insertStaff);
