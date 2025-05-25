@@ -1,5 +1,6 @@
 <?php
-$page = $_GET['page'] ?? 'dashboard'; //set default page to dashboard if not set
+
+$page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; //set default page to dashboard if not set
 ?>
 
 <!DOCTYPE html>

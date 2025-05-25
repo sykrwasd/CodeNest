@@ -21,9 +21,7 @@
              <div>
                 <input type="text" placeholder=" IC Number" required>
             </div>
-            <div>
-                <input type="text" placeholder="Username" required>
-            </div>
+            
             <div>
                 <input type="password" placeholder="Password" required>
             </div>
@@ -34,7 +32,10 @@
                 <button type="submit">Verify Account</button>
             </div>
             <a>Existing Staff? Login <a href="login.php">Here.</a></a>
+           
         </form>
+
+
     </div>
 </body>
 </html>

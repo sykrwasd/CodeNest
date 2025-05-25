@@ -1,3 +1,90 @@
+<?php
+include '../config/database.php';
+$random = 2025 . rand(100000,999999); // staffID
+$random2 = rand(100000,999999); // staffID
+$randomEmail = $random . '@nazacorp.com';
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+
+    // Getting staff info
+    $firstname = $_POST['fname'];
+    $lastname = $_POST['lname'];
+    $fullname = $firstname . ' ' . $lastname;
+
+    $dob = $_POST['dob'];
+    $pnum = $_POST['pnum'];
+    $email = $randomEmail;
+    $role = $_POST['role'];
+    $department = $_POST['department'];
+    $citizen = $_POST['citizen']; // staffIC
+    $salary = $_POST['salary']; 
+
+    $address1 = $_POST['address1'];
+    $address2 = $_POST['address2'];
+    $postcode = $_POST['postcode'];
+    $state = $_POST['state'];
+    $country = $_POST['country'];
+    $fulladdress = $address1 . ' ' . $address2 . ' ' . $postcode . ' ' . $state . ' ' . $country;
+
+    $hireDate = date('Y-m-d'); 
+
+    // Handle image upload
+    $targetDir = "../img/";
+    $imageName = preg_replace("/[^a-zA-Z0-9]/", "", $firstname . $lastname) . ".jpg";
+    $targetFile = $targetDir . $imageName;
+
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    // Only allow JPG files
+    if ($imageFileType !== "jpg") {
+        die("Only JPG files are allowed.");
+    }
+
+    if (move_uploaded_file($_FILES["picture"]["tmp_name"], $targetFile)) {
+        // File uploaded successfully
+
+        // Insert into new schema
+        $insertStaff = "INSERT INTO staff (
+            staffEmail, staffID, staffFullName, staffNoPhone, staffAddress, 
+            staffDOB, staffIC, staffHireDate, staffDepartment, staffRole, staffPicture
+        ) VALUES (
+            '$email', '$random', '$fullname', '$pnum', '$fulladdress',
+            '$dob', '$citizen', '$hireDate', '$department', '$role', '$imageName'
+        )";
+
+         $insertSalary = "INSERT INTO salary (
+           salaryID, basicSalary,	allowance,	staffID
+        ) VALUES (
+           '$random2', '$salary', '100', '$email'
+        )";
+
+         $insertUser = "INSERT INTO user (
+           userEmail, userPassword,	category
+        ) VALUES (
+           '$email',' ','staff'
+        )";
+
+        $result = mysqli_query($conn, $insertStaff);
+        $result2 = mysqli_query($conn, $insertSalary);
+        $result3 = mysqli_query($conn, $insertUser);
+
+        if ($result) {
+            echo "<script>alert('Staff Added Successfully');
+            window.history.back();
+            </script>";
+        } else {
+            echo "<script>alert('Database Error: " . mysqli_error($conn) . "');</script>";
+        }
+
+    } else {
+        echo "Sorry, there was an error uploading the picture.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +105,7 @@
               <h2 style="text-align: center; margin-top: 0px;"> Staff Registration</h2>
                 <div class="container">
                 
-                  <form method="post" action="../functions/add_staff.php" enctype="multipart/form-data">
+                  <form method="post" action="" enctype="multipart/form-data">
 
 
                       <div class="row justify-content-center">
@@ -52,18 +139,28 @@
                         <div class="col-4">
                             <div class="form-group">
                               <label for="email">Company Email</label>
-                              <input type="email" class="form-control" name="email" id="email" placeholder="companyemail@gmail.com" />
+                              <input type="email" class="form-control" name="email" id="email" value="<?php echo $randomEmail?>" readonly />
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
-                              <label for="position">Position</label>
-                              <select class="form-select" name="position" id="position">
-                                <option selected>Position</option>
-                                <option value="item 1">item 1</option>
-                                <option value="item 2">item 2</option>
-                                <option value="item 3">item 3</option>
-                                <option value="...">more items..</option>
+                              <label for="department">Department</label>
+                              <select class="form-select" name="department" id="deparment">
+                                <option selected disabled style="text-align: center;">Deparment</option>
+                                <option value="service" style="text-align: center;">Service</option>
+                                <option value="factory" style="text-align: center;">Factory</option>
+                                <option value="item 3" style="text-align: center;">item 3</option>
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                              <label for="role" >Role</label>
+                              <select class="form-select" name="role" id="role">
+                                <option selected disabled style="text-align: center;">Role</option>
+                                <option value="supervisor" style="text-align: center;">Supervisor</option>
+                                <option value="item 2" style="text-align: center;">item 2</option>
+                                <option value="item 3" style="text-align: center;">item 3</option>
                               </select>
                             </div>
                         </div>
