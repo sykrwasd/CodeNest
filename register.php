@@ -2,14 +2,14 @@
 
 include('./config/database.php');
 
+$message = "";
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $userEmail = $_POST['email'];
     $ic = $_POST['ic'];
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmpassword'];
 
-   
-    
 
     $query = $conn->prepare('SELECT * FROM staff WHERE staffEmail = ? ');
     $query->bind_param('s', $userEmail);
@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $update = "UPDATE user SET userPassword='$password' WHERE userEmail='$userEmail'"; 
                 
                  $query = mysqli_query($conn, $update);
-                
+                 
+                $message = "Account Created Succesfully";
                   
             }
         } else {
@@ -54,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <p class="message"><?php echo $message; ?></p>
     <div class="container">
         <h2>Account Verification</h2>
         <form action="" method="post">

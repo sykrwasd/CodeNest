@@ -24,7 +24,7 @@
                <table class="table table-bordered table-hover staff-table">
                         <thead class="table-primary text-center">
                             <tr>
-                                <th scope="col">Staff Image</th>
+                                <th scope="col">Payroll ID</th>
                                 <th scope="col">Full Name</th>
                                 <th scope="col">Phone Number</th>
                                 <th scope="col">Company Email</th>
@@ -35,7 +35,7 @@
                         <tbody>
                         <?php 
                             $i = 1;
-                            $viewQuery = $conn -> prepare('SELECT * from staff');
+                            $viewQuery = $conn -> prepare('SELECT * from payroll');
                             $viewQuery  -> execute();
                             $result = $viewQuery -> get_result();
                             while ($row = $result->fetch_assoc()) {

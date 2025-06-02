@@ -10,7 +10,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; //set default page t
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidebar With Bootstrap</title>
+    <title>Human Resource Admin</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -48,7 +48,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; //set default page t
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="?page=view_payroll" class="sidebar-link">
                         <i class="lni lni-cog"></i>
                         <span>Payroll Manager</span>
                     </a>
@@ -66,11 +66,13 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; //set default page t
                     </a>
                 </li>
             </ul>
-            <div class="sidebar-footer">
-                <a href="#" class="sidebar-link">
-                    <i class="lni lni-exit"></i>
-                    <span>Logout</span>
-                </a>
+            <div class="sidebar-footer text-center p-3">
+                <form action="logout.php">
+                    <button type="submit" class="btn btn-outline-danger d-flex align-items-center gap-2">
+                        <i class="lni lni-exit"></i>
+                        <span>  </span>
+                    </button>
+                </form>
             </div>
         </aside>
         <div class="main p-3">

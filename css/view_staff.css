@@ -6,3 +6,21 @@ body {
     font-weight: 600;
     
 }
+
+.staff-table {
+border-radius: 10px;
+overflow: hidden;
+box-shadow: 0 0 10px rgba(0,0,0,0.1);
+margin: 20px auto;
+width: 95%;
+}
+.staff-table img {
+border-radius: 8px;
+object-fit: cover;
+}
+.staff-table td,
+.staff-table th {
+vertical-align: middle !important;
+text-align: center;
+}
+
