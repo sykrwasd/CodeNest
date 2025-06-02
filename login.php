@@ -15,12 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $row = $result->fetch_assoc();
         $storedPassword = $row['userPassword'];
 
-        if($storedPassword == "newuser" ){
+       if ($storedPassword == "newuser") {
             echo '<script>
-                alert("New User");
+                alert("New user detected");
+                window.location.href = "./register.php";
             </script>';
-            header("Location: ./register.php");
+            exit(); 
         }
+
        
         // Password check - supports hashed or plain for now
         if (password_verify($password, $storedPassword) || $password == $storedPassword) {
@@ -28,9 +30,27 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $_SESSION['category'] = $row['category'];
 
             if ($_SESSION['category'] === 'admin') {
+
+                        
+            $query = $conn->prepare('SELECT * FROM admin WHERE adminEmail = ?');
+            $query->bind_param('s', $userEmail);
+            $query->execute();
+            $result = $query->get_result();
+
+            $_SESSION['adminID'] = $result->fetch_assoc()['adminID'];
+
                 header("Location: ./admin/admin_sidebar.php");
             } else {
-                header("Location: ./user/user_dashboard.php"); // Adjust as needed
+
+                             
+            $query = $conn->prepare('SELECT * FROM staff WHERE staffEmail = ?');
+            $query->bind_param('s', $userEmail);
+            $query->execute();
+            $result = $query->get_result();
+
+            $_SESSION['adminID'] = $result->fetch_assoc()['adminID'];
+
+                header("Location: ./user/user_sidebar.php"); // Adjust as needed
             }
             exit();
         } else {
@@ -79,48 +99,47 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             
              <button type="submit" data-bs-toggle="modal" data-bs-target="#myModal">View Staff</button>
 
-                                    
                 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"> Title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modalBody">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
 
-                  <table class="table table-bordered table-hover staff-table">
-                        <thead class="table-primary text-center">
-                            <tr>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Staff List</h5>
+                        </div>
+
+                        <div class="modal-body" id="modalBody">
+                            <table class="table table-bordered table-hover staff-table">
+                            <thead class="table-primary text-center">
+                                <tr>
                                 <th scope="col">Full Name</th>
                                 <th scope="col">Company Email</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php 
-                            $i = 1;
-                            $viewQuery = $conn -> prepare('SELECT * from staff');
-                            $viewQuery  -> execute();
-                            $result = $viewQuery -> get_result();
-                            while ($row = $result->fetch_assoc()) {
-                        ?>
-                            <tr style="text-align: center;">
-                                <td><?php echo $row['staffFullName']; ?></td>
-                                <td><?php echo $row['staffEmail']; ?></td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                            
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                $viewQuery = $conn->prepare('SELECT * FROM staff');
+                                $viewQuery->execute();
+                                $result = $viewQuery->get_result();
+                                while ($row = $result->fetch_assoc()) {
+                                ?>
+                                <tr class="text-center">
+                                    <td><?php echo $row['staffFullName']; ?></td>
+                                    <td><?php echo $row['staffEmail']; ?></td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                       
                     </div>
-                    </div>
-                </div>
-                </div>
-    
+
+                        
 
 </body>
 

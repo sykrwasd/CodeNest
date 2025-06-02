@@ -55,8 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <p class="message"><?php echo $message; ?></p>
-    <div class="container">
+            <?php if (!empty($message)): ?>
+            <p class="message" style="color: green;"><?php echo htmlspecialchars($message); ?></p>
+        <?php endif; ?>
+
+        <div class="container">
         <h2>Account Verification</h2>
         <form action="" method="post">
             <div>

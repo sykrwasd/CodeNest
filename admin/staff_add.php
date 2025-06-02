@@ -187,9 +187,9 @@
                                 <label for="department">Department</label>
                                 <select class="form-select" name="department" id="deparment">
                                   <option selected disabled style="text-align: center;">Deparment</option>
-                                  <option value="service" style="text-align: center;">Sales</option>
-                                  <option value="factory" style="text-align: center;">Accounting</option>
-                                  <option value="item 3" style="text-align: center;">Customer Services</option>
+                                  <option value="Service" style="text-align: center;">Sales</option>
+                                  <option value="Factory" style="text-align: center;">Accounting</option>
+                                  <option value="Marketing" style="text-align: center;">Marketing</option>
                                 </select>
                               </div>
                           </div>

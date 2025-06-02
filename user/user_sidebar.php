@@ -36,28 +36,22 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; //set default page t
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="?page=staff_add" class="sidebar-link">
+                    <a href="?page=view_profile" class="sidebar-link">
                         <i class="lni lni-agenda"></i>
-                        <span>Add Employee</span>
+                        <span>View Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="?page=view_staff" class="sidebar-link">
+                    <a href="?page=request" class="sidebar-link">
                         <i class="lni lni-popup"></i>
-                        <span>View Employee</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="?page=view_request" class="sidebar-link">
-                        <i class="lni lni-cog"></i>
-                        <span>View Request</span>
+                        <span>Request</span>
                     </a>
                 </li>
                 
             </ul>
             <div class="sidebar-footer text-center p-3">
-                <form action="../logout.php">
-                    <button type="submit" class="btn btn-danger d-flex align-items-center gap-2">
+                <form action="logout.php">
+                    <button type="submit" class="btn btn-danger d-flex align-items-center">
                         <i class="lni lni-exit"></i>
                         <span>  </span>
                     </button>
