@@ -1,118 +1,124 @@
 <?php 
-
-    include('../config/database.php')
+include('../config/database.php');
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidebar With Bootstrap</title>
-    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/view_staff.css">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff List</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/view_staff.css">
 </head>
 
 <body>
-   
-                <h2 style="text-align: center;">Staff List</h2>
-               <table class="table table-bordered table-hover staff-table">
-                        <thead class="table-primary text-center">
-                            <tr>
-                                <th scope="col">Staff Image</th>
-                                <th scope="col">Full Name</th>
-                                <th scope="col">Phone Number</th>
-                                <th scope="col">Company Email</th>
-                                <th scope="col">Hire Date</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php 
-                            $i = 1;
-                            $viewQuery = $conn -> prepare('SELECT * from staff');
-                            $viewQuery  -> execute();
-                            $result = $viewQuery -> get_result();
-                            while ($row = $result->fetch_assoc()) {
-                        ?>
-                            <tr>
-                                <td><img src="../img/<?php echo $row['staffPicture'];?>" width="80" height="80"></td>
-                                <td><?php echo $row['staffFullName']; ?></td>
-                                <td><?php echo $row['staffNoPhone']; ?></td>
-                                <td><?php echo $row['staffEmail']; ?></td>
-                                <td><?php echo $row['staffHireDate']; ?></td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                                        View Details
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Staff List</h2>
+    <table class="table table-bordered table-hover staff-table">
+      <thead class="table-primary text-center">
+        <tr>
+          <th scope="col"><i class="fa-solid fa-image"></i> Staff Image</th>
+          <th scope="col"><i class="fa-solid fa-user"></i> Full Name</th>
+          <th scope="col"><i class="fa-solid fa-phone"></i> Phone Number</th>
+          <th scope="col"><i class="fa-solid fa-envelope"></i> Company Email</th>
+          <th scope="col"><i class="fa-solid fa-calendar-days"></i> Hire Date</th>
+          <th scope="col"><i class="fa-solid fa-gear"></i> Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php 
+        $viewQuery = $conn->prepare('SELECT * from staff');
+        $viewQuery->execute();
+        $result = $viewQuery->get_result();
+        while ($row = $result->fetch_assoc()) {
+        ?>
+        <tr>
+          <td><img src="../img/<?php echo $row['staffPicture'];?>" width="90" height="90" /></td>
+          <td><?php echo $row['staffFullName']; ?></td>
+          <td><?php echo $row['staffNoPhone']; ?></td>
+          <td><?php echo $row['staffEmail']; ?></td>
+          <td><?php echo $row['staffHireDate']; ?></td>
+          <td class="text-center">
+            <form action="../functions/update.php" method="post" class="d-inline-block">
+              <input type="hidden" name="type" value="staff">
+              <button type="submit" name="mark_read" class="btn btn-success btn-sm">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+            </form>
+            <form action="delete_request.php" method="post" class="d-inline-block">
+              <input type="hidden" name="updateID" value="<?php echo $row['updateID'] ?>">
+              <button type="submit" name="mark_read" class="btn btn-danger btn-sm">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </form>
+          </td>
+        </tr>
+        <?php } ?>
+      </tbody>
+    </table>
+  </div>
+  
+            <div class="text-center my-3">
+            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                <i class="fa-solid fa-eye"></i> View Full Details
+            </button>
+            </div>
 
 
-                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"> Title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modalBody">
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Staff Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <table class="table table-bordered table-hover staff-table">
+      <thead class="table-primary text-center">
+        <tr>
+            <th scope="col"><i class="fa-solid fa-image"></i> Staff Image</th>
+            <th scope="col"><i class="fa-solid fa-location-dot"></i> Address</th>
+            <th scope="col"><i class="fa-solid fa-cake-candles"></i> Date of Birth</th>
+            <th scope="col"><i class="fa-solid fa-id-card"></i> IC</th>
+            <th scope="col"><i class="fa-solid fa-building-user"></i> Department</th>   
+        </tr>
+      </thead>
+      <tbody>
+        <?php 
+        $viewQuery = $conn->prepare('SELECT * from staff');
+        $viewQuery->execute();
+        $result = $viewQuery->get_result();
+        while ($row = $result->fetch_assoc()) {
+        ?>
+        <tr>
+          <td><img src="../img/<?php echo $row['staffPicture'];?>" width="90" height="90" /></td>
+          <td><?php echo $row['staffAddress']; ?></td>
+          <td><?php echo $row['staffDOB']; ?></td>
+          <td><?php echo $row['staffIC']; ?></td>
+          <td><?php echo $row['staffDepartment']; ?></td>
+          
+        </tr>
+        <?php } ?>
+      </tbody>
+    </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                    <table class="table table-bordered">
-                        <thead>
-                      
-                    <tr class="table-primary">
-                        <th scope="col">Staff Image</th>
-                        <th scope="col">Full Name</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Company Email</th>
-                        <th scope="col">Hire Date</th>
-                      </>
-                      <?php 
-                        $i = 1;
-                        $viewQuery = $conn -> prepare('SELECT * from staff');
-                                                $viewQuery  -> execute();
-                                                $result = $viewQuery -> get_result();
-                        while ($row = $result->fetch_assoc()) {
-                        
-                        ?>
-                        <tr>
-                            <th scope="row">
-                                <img src="../img/<?php echo $row['staffPicture'];?>" width="60">
-                            </th>
-                            <td><?php echo $row['staffFullName']; ?></td>
-                            <td><?php echo $row['staffNoPhone']; ?></td>
-                            <td><?php echo $row['staffEmail']; ?></td>
-                            <td><?php echo $row['staffHireDate']; ?></td>
-                            
-                        </tr>
-                        <?php } ?>
-                      </thead>
-                    
-                      
-                </table>
-                            
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                       
-                    </div>
-                    </div>
-                </div>
-                </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3 .0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
-    <script src="test.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="test.js"></script>
 </body>
-
 </html>

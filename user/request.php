@@ -1,34 +1,29 @@
 <?php
-session_start();
 include('../config/database.php');
 
-$emailID = $_SESSION['userID'];
+$staffID = $_SESSION['staffID'];
 
 // print_r($_SESSION);
 
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-     $staffID = str_replace('@nazacorp.com', '', $_SESSION['userID']);
 
-        $updateID = rand(100000,999999); // updateID
-
-        $adminID = $_POST['adminID'];
+        $requestID = rand(100000,999999); // updateID
         $content = $_POST['content'];
         // echo $adminID;
         //echo nl2br($content);
 
+        echo  $requestID, $content, 'Unread', $staffID;
 
 
           $insertRequest = "INSERT INTO request_updates (
-            updateID, inbox,status,	staffID, adminID
+            requestID,inbox,status,staffID
           ) VALUES (
-            '$updateID', '$content', 'Unread', '$staffID', '$adminID'
+            '$requestID', '$content', 'Unread', '$staffID'
           )";
 
           $result = mysqli_query($conn, $insertRequest);
-
-          
 
           if ($result) {
               echo "<script>alert('Request Added Successfully');
@@ -41,8 +36,19 @@ $emailID = $_SESSION['userID'];
   }
 ?>
 
-
-<div class="container p-4 border rounded shadow-sm bg-white" style="max-width: 800px;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/view_staff.css">
+</head>
+<body>
+    <div class="container p-4 border rounded shadow-sm bg-white" style="max-width: 800px;">
     <h4 class="text-center mb-4">Application Form to the Administration</h4>
 
     <form action="" method="POST">
@@ -53,7 +59,7 @@ $emailID = $_SESSION['userID'];
                     <div class="mb-3">
                         <?php 
                         $viewQuery = $conn->prepare('SELECT * FROM staff WHERE staffID = ?');
-                        $viewQuery->bind_param('s', $emailID); 
+                        $viewQuery->bind_param('s', $staffID); 
                         $viewQuery->execute();
                         $result = $viewQuery->get_result();
 
@@ -64,28 +70,11 @@ $emailID = $_SESSION['userID'];
                         <?php } ?>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="mb-3">
-                        <label for="requestTitle" class="form-label fw-semibold">To</label>
-                        <select class="form-select" name="adminID" >
-                            <option disabled selected>Admins</option>
-                            <?php 
-                            $viewQuery = $conn->prepare('SELECT * FROM admin');
-                            $viewQuery->execute();
-                            $result = $viewQuery->get_result();
-                            while ($row = $result->fetch_assoc()) {
-                            ?>
-                            <option value="<?php echo $row['adminID']; ?>">
-                                <?php echo $row['adminFullName']; ?>
-                            </option>
-                            <?php }?>
-                        </select>
-                    </div>
-                </div>
+              
             </div>
         </div>
 
-        <div class="mb-3">
+        <div>
             <label class="form-label fw-semibold">Official Letter</label>
             <textarea name="content" class="form-control" rows="12" required><?php echo 
                 "Application Title: [State your title here]\n\n" .
@@ -96,7 +85,58 @@ $emailID = $_SESSION['userID'];
         </div>
 
         <div class="text-end">
-            <button type="submit" class="btn btn-primary">Submit Application</button>
+            <button type="submit" class="btn btn-success">Submit Application</button>
         </div>
-    </form>
+    </form>                   
 </div>
+
+ <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Staff Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <table class="table table-bordered table-hover staff-table">
+      <thead class="table-primary text-center">
+        <tr>
+            <th scope="col"><i class="fa-solid fa-image"></i> Request ID</th>
+            <th scope="col"><i class="fa-solid fa-location-dot"></i> Status</th>
+            
+        </tr>
+      </thead>
+      <tbody>
+        <?php 
+        $viewQuery = $conn->prepare('SELECT * from request_updates ');
+        $viewQuery->execute();
+        $result = $viewQuery->get_result(); 
+        while ($row = $result->fetch_assoc()) {
+        ?>
+        <tr>
+          
+          <td><?php echo $row['requestID']; ?></td>
+          <td> <span class="badge <?php echo $row['status'] == 'Read' ? 'bg-success' : 'bg-warning text-dark'; ?>">
+                            <?php echo $row['status']; ?>
+                        </span></td>
+          
+        </tr>
+        <?php } ?>
+      </tbody>
+    </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+             <div class="text-center my-3">
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                    <i class="fa-solid fa-eye"></i> View Status
+                </button>
+            </div>
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

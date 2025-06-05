@@ -24,12 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
 
        
-        // Password check - supports hashed or plain for now
         if (password_verify($password, $storedPassword) || $password == $storedPassword) {
-            $_SESSION['userID'] = $row['userEmail'];
+            $_SESSION['userEmail'] = $row['userEmail'];
+            $_SESSION['userID'] = $row['userID'];   
             $_SESSION['category'] = $row['category'];
 
-            if ($_SESSION['category'] === 'admin') {
+            if ($_SESSION['category'] == 'admin') {
 
                         
             $query = $conn->prepare('SELECT * FROM admin WHERE adminEmail = ?');
@@ -39,16 +39,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             $_SESSION['adminID'] = $result->fetch_assoc()['adminID'];
 
-                header("Location: ./admin/admin_sidebar.php");
+            header("Location: ./admin/admin_sidebar.php");
             } else {
-
-                             
+   
             $query = $conn->prepare('SELECT * FROM staff WHERE staffEmail = ?');
             $query->bind_param('s', $userEmail);
             $query->execute();
             $result = $query->get_result();
 
-            $_SESSION['adminID'] = $result->fetch_assoc()['adminID'];
+            $_SESSION['staffID'] = $result->fetch_assoc()['staffID'];
 
                 header("Location: ./user/user_sidebar.php"); // Adjust as needed
             }

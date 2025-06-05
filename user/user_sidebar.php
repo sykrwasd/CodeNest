@@ -1,6 +1,6 @@
 <?php
-
-$page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; //set default page to dashboard if not set
+session_start();
+$page = isset($_GET['page']) ? $_GET['page'] : 'user_dashboard'; // set default page to dashboard if not set
 ?>
 
 <!DOCTYPE html>
@@ -31,35 +31,46 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; //set default page t
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
                     <a href="?page=dashboard" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>DashBoard</span>
+                        <i class="lni lni-dashboard"></i>
+                        <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="?page=view_profile" class="sidebar-link">
-                        <i class="lni lni-agenda"></i>
+                        <i class="lni lni-user"></i>
                         <span>View Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a href="?page=view_payroll" class="sidebar-link">
+                        <i class="lni lni-coin"></i>
+                        <span>View Payroll</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a href="?page=request" class="sidebar-link">
-                        <i class="lni lni-popup"></i>
+                        <i class="lni lni-envelope"></i>
                         <span>Request</span>
                     </a>
                 </li>
-                
+                 <li class="sidebar-item">
+                    <a href="?page=user_evaluate" class="sidebar-link">
+                        <i class="fa-solid fa-inbox"></i>
+                        <span>Evaluation</span>
+                    </a>
+                </li>
             </ul>
             <div class="sidebar-footer text-center p-3">
-                <form action="logout.php">
-                    <button type="submit" class="btn btn-danger d-flex align-items-center">
-                        <i class="lni lni-exit"></i>
-                        <span>  </span>
+                <form action="../logout.php">
+                    <button type="submit" class="btn btn-danger d-flex align-items-center justify-content-center">
+                        <i class="lni lni-power-switch me-2"></i>
+                        <span>Logout</span>
                     </button>
                 </form>
             </div>
         </aside>
         <div class="main p-3">
-        <?php
+            <?php
                 $filepath = "$page.php";
                 if (file_exists($filepath)) {
                     include($filepath);

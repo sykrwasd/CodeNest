@@ -111,7 +111,7 @@
 
           
 
-          if ($staffResult) {
+          if ($staffResult && $salaryResult && $userResult && $payrollResult && $performanceResult && $updateResult && $departmentResult) {
               echo "<script>alert('Staff Added Successfully');
               window.history.back();
               </script>";
