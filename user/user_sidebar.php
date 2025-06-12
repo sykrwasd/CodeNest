@@ -30,7 +30,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'user_dashboard'; // set default 
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="?page=dashboard" class="sidebar-link">
+                    <a href="?page=user_dashboard" class="sidebar-link">
                         <i class="lni lni-dashboard"></i>
                         <span>Dashboard</span>
                     </a>

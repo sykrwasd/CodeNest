@@ -1,5 +1,4 @@
 <?php 
-session_start();
 include('../config/database.php');
 
 $emailID = $_SESSION['userID'];
@@ -12,6 +11,10 @@ $result = $viewQuery->get_result();
 while ($row = $result->fetch_assoc()) {
 ?>
 
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/view_staff.css">
 <div class="container my-4 p-4 border rounded shadow-sm" style="max-width: 700px;">
   <div class="text-center mb-4">
     <img src="../img/<?php echo htmlspecialchars($row['staffPicture']); ?>" width="80" height="80" class="rounded" alt="Staff Picture">

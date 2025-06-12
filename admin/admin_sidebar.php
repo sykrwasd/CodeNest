@@ -18,7 +18,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; // default page
     <link rel="stylesheet" href="../css/sidebar.css">
 </head>
 
-<body>
+<body style="text-decoration: none;">
     <div class="wrapper">
         <aside id="sidebar">
             <div class="d-flex">

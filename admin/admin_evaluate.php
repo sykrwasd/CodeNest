@@ -2,6 +2,7 @@
 include '../config/database.php';
 
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $performanceID = rand(100000,999999);
     $evaluatorID = $_POST['ev'];
@@ -9,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $evaluateDate = $_POST['date'];
     $remarks = $_POST['remark'];
     $status = 'Unchecked';
+
+    
 
     $insertPerformance = "INSERT INTO performance (
         performID, evaluatorID, evaluateeID, evaluateDate, remarks, status
@@ -50,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-md-4">
                     <label for="e" class="form-label fw-semibold">Evaluatee ID</label>
                      <select class="form-select" name="e" >
-                            <option disabled selected>Staff</option>
+                            <option disabled selected>StaffID</option>
                             <?php 
                             $viewQuery = $conn->prepare('SELECT * FROM staff');
                             $viewQuery->execute();
@@ -58,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             while ($row = $result->fetch_assoc()) {
                             ?>
                             <option value="<?php echo $row['staffID']; ?>">
-                                <?php echo $row['staffFullName']; ?>
+                                <?php echo $row['staffID']; ?>
                             </option>
                             <?php }?>
                         </select>

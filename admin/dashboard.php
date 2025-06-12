@@ -1,8 +1,3 @@
-<?php 
-print_r($_SESSION);
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,86 +11,75 @@ print_r($_SESSION);
     <link rel="stylesheet" href="../css/view_staff.css"> 
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="mb-4">Dashboard</h2>
-        
-        <div class="row">
-            <!-- Bar Chart -->
-            <div class="col-md-6 mb-4">
-                <div class="card">
-                    <div class="card-header">Bar Chart</div>
-                    <div class="card-body">
-                        <canvas id="barChart"></canvas>
-                    </div>
-                </div>
-            </div>
+         <div class="content container-fluid p-3">
 
-            <!-- Line Chart -->
-            <div class="col-md-6 mb-4">
-                <div class="card">
-                    <div class="card-header">Line Chart</div>
-                    <div class="card-body">
-                        <canvas id="lineChart"></canvas>
-                    </div>
-                </div>
-            </div>
+         <div class="row">
 
-            <!-- Pie Chart -->
-            <div class="col-md-6 mb-4">
-                <div class="card">
-                    <div class="card-header">Pie Chart</div>
-                    <div class="card-body">
-                        <canvas id="pieChart"></canvas>
-                    </div>
-                </div>
-            </div>
+             <div class="col-md-3">
+                 <div class="card shadow rounded-4 border-0" style="background-color: #ffd463">
+                     <div class="card-body">
+                         <h6 class="card-title">Total Staff</h6>
+                         <div class="d-flex justify-content-between align-items-center">
+                             <h4 id="totalStaff" class="mb-0 fw-bold fs-5">...</h4>
+                             <i class="bi bi-people zfs-3"></i>
+                         </div>
+                         <p class="small text-muted mb-0">Number of staff</p>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-3">
+                 <div class="card shadow rounded-4 border-0" style="background-color: #ffd463">
+                     <div class="card-body">
+                         <h6 class="card-title">Total Staff</h6>
+                         <div class="d-flex justify-content-between align-items-center">
+                             <h4 id="totalStaff" class="mb-0 fw-bold fs-5">...</h4>
+                             <i class="bi bi-people zfs-3"></i>
+                         </div>
+                         <p class="small text-muted mb-0">Number of staff</p>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-3">
+                 <div class="card shadow rounded-4 border-0" style="background-color: #ffd463">
+                     <div class="card-body">
+                         <h6 class="card-title">Total Staff</h6>
+                         <div class="d-flex justify-content-between align-items-center">
+                             <h4 id="totalStaff" class="mb-0 fw-bold fs-5">...</h4>
+                             <i class="bi bi-people zfs-3"></i>
+                         </div>
+                         <p class="small text-muted mb-0">Number of staff</p>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-3">
+                 <div class="card shadow rounded-4 border-0" style="background-color: #ffd463">
+                     <div class="card-body">
+                         <h6 class="card-title">Total Staff</h6>
+                         <div class="d-flex justify-content-between align-items-center">
+                             <h4 id="totalStaff" class="mb-0 fw-bold fs-5">...</h4>
+                             <i class="bi bi-people zfs-3"></i>
+                         </div>
+                         <p class="small text-muted mb-0">Number of staff</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+             
+         
+         
         </div>
-    </div>
+        <div class="row mt-4 g-0">
 
-    <script>
-        // Bar Chart
-        new Chart(document.getElementById('barChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green'],
-                datasets: [{
-                    label: 'Bar Data',
-                    data: [12, 19, 3, 5],
-                    backgroundColor: ['red', 'blue', 'yellow', 'green']
-                }]
-            },
-            options: { responsive: true }
-        });
+        <div class="col-md-6 d-flex justify-content-center p-0 m-0">
+            <canvas id="pieChart" width="400" height="400"></canvas>
+        </div>
+        <div class="col-md-6 d-flex justify-content-center p-0 m-0">
+            <canvas id="doughnutChart" width="400" height="400" ></canvas>
+        </div>
+</div>
 
-        // Line Chart
-        new Chart(document.getElementById('lineChart'), {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr'],
-                datasets: [{
-                    label: 'Line Data',
-                    data: [3, 10, 5, 8],
-                    fill: false,
-                    borderColor: 'blue',
-                    tension: 0.1
-                }]
-            },
-            options: { responsive: true }
-        });
-
-        // Pie Chart
-        new Chart(document.getElementById('pieChart'), {
-            type: 'pie',
-            data: {
-                labels: ['Apple', 'Samsung', 'Huawei'],
-                datasets: [{
-                    label: 'Pie Data',
-                    data: [40, 30, 30],
-                    backgroundColor: ['red', 'purple', 'orange']
-                }]
-            },
-            options: { responsive: true }
-        });
-    </script>
 </body>
+        <script src="../dashboard/js/display.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
 </html>

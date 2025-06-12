@@ -14,7 +14,6 @@ while ($row = $result->fetch_assoc()) {
 
 <div class="container my-4 p-4 border rounded shadow-sm" style="max-width: 700px;">
   <div class="text-center mb-4">
-    <img src="../img/<?php echo htmlspecialchars($row['adminPicture']); ?>" width="80" height="80" class="rounded" alt="Admin Picture">
     <h2 class="mt-3" id="adminFullName"><?php echo htmlspecialchars($row['adminFullName']); ?></h2>
     <p class="text-muted">Administrator</p>
   </div>

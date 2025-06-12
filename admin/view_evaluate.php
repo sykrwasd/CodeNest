@@ -1,6 +1,31 @@
 <?php 
 include('../config/database.php');
 $adminID = $_SESSION['userID'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $performanceID = rand(100000,999999);
+    $evaluatorID = $_POST['ev'];
+    $evaluateeID = $_POST['e'];
+    $evaluateDate = $_POST['date'];
+    $remarks = $_POST['remark'];
+    $status = 'Unchecked';
+
+    
+    $insertPerformance = "INSERT INTO performance (
+        performID, evaluatorID, evaluateeID, evaluateDate, remarks, status
+    ) VALUES (
+        '$performanceID', '$evaluatorID', '$evaluateeID', '$evaluateDate', '$remarks', '$status'
+    )";
+
+    $performanceResult = mysqli_query($conn, $insertPerformance);
+
+    if ($performanceResult) {
+        echo "<script>alert('Evaluation submitted successfully.'); window.location.href = window.location.href;</script>";
+    } else {
+        echo "<script>alert('Database error: " . mysqli_error($conn) . "');</script>";
+    }
+}
+
 ?>
 
 <div class="container bg-white p-4 rounded shadow-sm">
@@ -15,6 +40,7 @@ $adminID = $_SESSION['userID'];
                     <th><i class="fa-solid fa-user"></i> Evaluatee ID</th>
                     <th><i class="fa-solid fa-calendar-days"></i> Date</th>
                     <th><i class="fa-solid fa-comments"></i> Remarks</th>
+                    <th><i class="fa-solid fa-comments"></i> Evaluate</th>
                     <th><i class="fa-solid fa-circle-info"></i> Status</th>
                     <th><i class="fa-solid fa-gear"></i> Action</th>
                 </tr>
@@ -39,7 +65,12 @@ $adminID = $_SESSION['userID'];
                         </div>
                     </td>
                     <td>
-                        <span class="badge <?php echo $row['status'] == 'Read' ? 'bg-success' : 'bg-warning text-dark'; ?>">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                             Evaluate
+                            </button>
+                    </td>
+                    <td>
+                        <span class="badge <?php echo $row['status'] == 'Read' ? 'bg-success' : 'bg-warning text-dark'; ?>">    
                             <?php echo $row['status']; ?>
                         </span>
                     </td>
@@ -65,3 +96,46 @@ $adminID = $_SESSION['userID'];
         </table>
     </div>
 </div>
+
+ <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Staff Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <form method="POST" action="" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="ev" class="form-label fw-semibold">Evaluator ID</label>
+                    
+                    <input type="text" class="form-control" name="ev" id="ev" required value="<?php echo $_SESSION['adminID'] ?>" readonly>
+                </div>
+               <div class="col-md-4">
+                    <label for="id" class="form-label fw-semibold">Staff ID</label>
+                    <input type="text" class="form-control" name="e" id="e" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="date" class="form-label fw-semibold">Evaluation Date</label>
+                    <input type="date" class="form-control" name="date" id="date" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="remark" class="form-label fw-semibold">Comment / Remarks</label>
+                <textarea class="form-control" name="remark" id="remark" rows="5" placeholder="Write your remarks here..." required></textarea>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Submit Evaluation</button>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -87,9 +87,9 @@
 
 
             $insertUpdate = "INSERT INTO request_update (
-              updateID, inbox, status, staffID, adminID
+              updateID, inbox, status, staffID, 
             ) VALUES (
-              '$updateID', '0', '0', '$staffID', '0'
+              '$updateID', '0', '0', '$staffID'
             )";
             
             $insertDepartment = "INSERT INTO department (
@@ -187,8 +187,8 @@
                                 <label for="department">Department</label>
                                 <select class="form-select" name="department" id="deparment">
                                   <option selected disabled style="text-align: center;">Deparment</option>
-                                  <option value="Service" style="text-align: center;">Sales</option>
-                                  <option value="Factory" style="text-align: center;">Accounting</option>
+                                  <option value="Sales" style="text-align: center;">Sales</option>
+                                  <option value="Accounting" style="text-align: center;">Accounting</option>
                                   <option value="Marketing" style="text-align: center;">Marketing</option>
                                 </select>
                               </div>

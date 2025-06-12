@@ -5,7 +5,6 @@ include('../config/database.php');
 $type = $_POST['type']; // e.g., 'request', 'staff', 'payroll'
 
 
-
     switch ($type) {
         case 'request':
             $requestID = $_POST['requestID'];
