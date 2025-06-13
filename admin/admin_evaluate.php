@@ -4,14 +4,14 @@ include '../config/database.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $performanceID = rand(100000,999999);
+    $performanceID = rand(100000, 999999);
     $evaluatorID = $_POST['ev'];
     $evaluateeID = $_POST['e'];
     $evaluateDate = $_POST['date'];
     $remarks = $_POST['remark'];
     $status = 'Unchecked';
 
-    
+
 
     $insertPerformance = "INSERT INTO performance (
         performID, evaluatorID, evaluateeID, evaluateDate, remarks, status
@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/sidebar.css">
 </head>
+
 <body>
     <div class="container p-4 border rounded shadow-sm bg-white mt-5" style="max-width: 900px;">
         <h4 class="text-center mb-4">Evaluation Survey Form</h4>
@@ -47,25 +49,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="ev" class="form-label fw-semibold">Evaluator ID</label>
-                    
-                    <input type="text" class="form-control" name="ev" id="ev" required value="<?php echo $_SESSION['adminID'] ?>" readonly>
+
+                    <input type="text" class="form-control" name="ev" id="ev" required
+                        value="<?php echo $_SESSION['adminID'] ?>" readonly>
                 </div>
                 <div class="col-md-4">
                     <label for="e" class="form-label fw-semibold">Evaluatee ID</label>
-                     <select class="form-select" name="e" >
-                            <option disabled selected>StaffID</option>
-                            <?php 
-                            $viewQuery = $conn->prepare('SELECT * FROM staff');
-                            $viewQuery->execute();
-                            $result = $viewQuery->get_result();
-                            while ($row = $result->fetch_assoc()) {
+                    <select class="form-select" name="e">
+                        <option disabled selected>StaffID</option>
+                        <?php
+                        $viewQuery = $conn->prepare('SELECT * FROM staff');
+                        $viewQuery->execute();
+                        $result = $viewQuery->get_result();
+                        while ($row = $result->fetch_assoc()) {
                             ?>
                             <option value="<?php echo $row['staffID']; ?>">
                                 <?php echo $row['staffID']; ?>
                             </option>
-                            <?php }?>
-                        </select>
-                  
+                        <?php } ?>
+                    </select>
+
                 </div>
                 <div class="col-md-4">
                     <label for="date" class="form-label fw-semibold">Evaluation Date</label>
@@ -75,7 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="mb-3">
                 <label for="remark" class="form-label fw-semibold">Comment / Remarks</label>
-                <textarea class="form-control" name="remark" id="remark" rows="5" placeholder="Write your remarks here..." required></textarea>
+                <textarea class="form-control" name="remark" id="remark" rows="5"
+                    placeholder="Write your remarks here..." required></textarea>
             </div>
 
             <div class="text-end">
@@ -87,4 +91,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/sidebar.js"></script>
 </body>
+
 </html>

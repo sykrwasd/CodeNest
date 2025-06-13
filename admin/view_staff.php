@@ -1,10 +1,11 @@
-<?php 
+<?php
 include('../config/database.php');
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,12 +13,14 @@ include('../config/database.php');
   <title>Staff List</title>
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
   <link rel="stylesheet" href="../css/view_staff.css">
-  
+
 </head>
 
 <body>
@@ -35,43 +38,43 @@ include('../config/database.php');
         </tr>
       </thead>
       <tbody>
-        <?php 
+        <?php
         $viewQuery = $conn->prepare('SELECT * from staff');
         $viewQuery->execute();
         $result = $viewQuery->get_result();
         while ($row = $result->fetch_assoc()) {
-        ?>
-        <tr>
-          <td><img src="../img/<?php echo $row['staffPicture'];?>" width="90" height="90" /></td>
-          <td><?php echo $row['staffFullName']; ?></td>
-          <td><?php echo $row['staffNoPhone']; ?></td>
-          <td><?php echo $row['staffEmail']; ?></td>
-          <td><?php echo $row['staffHireDate']; ?></td>
-          <td class="text-center">
-            <form action="../functions/update.php" method="post" class="d-inline-block">
-              <input type="hidden" name="type" value="staff">
-              <button type="submit" name="mark_read" class="btn btn-success btn-sm">
-                <i class="fa-solid fa-pen"></i>
-              </button>
-            </form>
-            <form action="delete_request.php" method="post" class="d-inline-block">
-              <input type="hidden" name="updateID" value="<?php echo $row['updateID'] ?>">
-              <button type="submit" name="mark_read" class="btn btn-danger btn-sm">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </form>
-          </td>
-        </tr>
+          ?>
+          <tr>
+            <td><img src="../img/<?php echo $row['staffPicture']; ?>" width="90" height="90" /></td>
+            <td><?php echo $row['staffFullName']; ?></td>
+            <td><?php echo $row['staffNoPhone']; ?></td>
+            <td><?php echo $row['staffEmail']; ?></td>
+            <td><?php echo $row['staffHireDate']; ?></td>
+            <td class="text-center">
+              <form action="../functions/update.php" method="post" class="d-inline-block">
+                <input type="hidden" name="type" value="staff">
+                <button type="submit" name="mark_read" class="btn btn-success btn-sm">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+              </form>
+              <form action="delete_request.php" method="post" class="d-inline-block">
+                <input type="hidden" name="updateID" value="<?php echo $row['updateID'] ?>">
+                <button type="submit" name="mark_read" class="btn btn-danger btn-sm">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
         <?php } ?>
       </tbody>
     </table>
   </div>
-  
-            <div class="text-center my-3">
-            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                <i class="fa-solid fa-eye"></i> View Full Details
-            </button>
-            </div>
+
+  <div class="text-center my-3">
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+      <i class="fa-solid fa-eye"></i> View Full Details
+    </button>
+  </div>
 
 
   <!-- Modal -->
@@ -84,33 +87,33 @@ include('../config/database.php');
         </div>
         <div class="modal-body" id="modalBody">
           <table class="table table-bordered table-hover staff-table">
-      <thead class="table-primary text-center">
-        <tr>
-            <th scope="col"><i class="fa-solid fa-image"></i> Staff Image</th>
-            <th scope="col"><i class="fa-solid fa-location-dot"></i> Address</th>
-            <th scope="col"><i class="fa-solid fa-cake-candles"></i> Date of Birth</th>
-            <th scope="col"><i class="fa-solid fa-id-card"></i> IC</th>
-            <th scope="col"><i class="fa-solid fa-building-user"></i> Department</th>   
-        </tr>
-      </thead>
-      <tbody>
-        <?php 
-        $viewQuery = $conn->prepare('SELECT * from staff');
-        $viewQuery->execute();
-        $result = $viewQuery->get_result();
-        while ($row = $result->fetch_assoc()) {
-        ?>
-        <tr>
-          <td><img src="../img/<?php echo $row['staffPicture'];?>" width="90" height="90" /></td>
-          <td><?php echo $row['staffAddress']; ?></td>
-          <td><?php echo $row['staffDOB']; ?></td>
-          <td><?php echo $row['staffIC']; ?></td>
-          <td><?php echo $row['staffDepartment']; ?></td>
-          
-        </tr>
-        <?php } ?>
-      </tbody>
-    </table>
+            <thead class="table-primary text-center">
+              <tr>
+                <th scope="col"><i class="fa-solid fa-image"></i> Staff Image</th>
+                <th scope="col"><i class="fa-solid fa-location-dot"></i> Address</th>
+                <th scope="col"><i class="fa-solid fa-cake-candles"></i> Date of Birth</th>
+                <th scope="col"><i class="fa-solid fa-id-card"></i> IC</th>
+                <th scope="col"><i class="fa-solid fa-building-user"></i> Department</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $viewQuery = $conn->prepare('SELECT * from staff');
+              $viewQuery->execute();
+              $result = $viewQuery->get_result();
+              while ($row = $result->fetch_assoc()) {
+                ?>
+                <tr>
+                  <td><img src="../img/<?php echo $row['staffPicture']; ?>" width="90" height="90" /></td>
+                  <td><?php echo $row['staffAddress']; ?></td>
+                  <td><?php echo $row['staffDOB']; ?></td>
+                  <td><?php echo $row['staffIC']; ?></td>
+                  <td><?php echo $row['staffDepartment']; ?></td>
+
+                </tr>
+              <?php } ?>
+            </tbody>
+          </table>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -119,7 +122,9 @@ include('../config/database.php');
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
   <script src="test.js"></script>
 </body>
+
 </html>

@@ -1,3 +1,13 @@
+<?php 
+// print_r($_SESSION  );
+// echo $staffID;
+
+
+include('../config/database.php');
+$staffID = $_SESSION['staffID'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +23,8 @@
   <!-- Month/Year Slider -->
   <div class="d-flex justify-content-between align-items-center px-4 py-3 bg-light border-bottom">
     <button class="btn btn-outline-primary btn-sm" id="prevMonth">&lt;</button>
+    <input type="hidden" value="<?php echo $staffID?>" id="staffid">
+    <input type="hidden" value="staff" id="page">
     <h4 id="monthLabel" class="m-0">June 2025</h4>
     <button class="btn btn-outline-primary btn-sm" id="nextMonth">&gt;</button>
   </div>
@@ -44,8 +56,8 @@
       </div>
       <div class="card-footer text-end">
       <div class="text-center my-3">
-  <button class="btn btn-primary" onclick="printToPDF()">Cetak Slip</button>
-</div>
+        <button class="btn btn-primary" onclick="printToPDF()">Print</button>
+      </div>
 
     </div>
       

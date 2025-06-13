@@ -1,118 +1,66 @@
 <?php 
+// print_r($_SESSION  );
+// echo $staffID;
 
-    include('../config/database.php')
+
+include('../config/database.php');
+$staffID = $_SESSION['staffID'];
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidebar With Bootstrap</title>
-    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/view_staff.css">
+  <meta charset="UTF-8">
+  <title>Staff List by Month</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/view_staff.css">
 </head>
+<body >
 
-<body>
-   
-                <h2 style="text-align: center;">Staff List</h2>
-               <table class="table table-bordered table-hover staff-table">
-                        <thead class="table-primary text-center">
-                            <tr>
-                                <th scope="col">Payroll ID</th>
-                                <th scope="col">Full Name</th>
-                                <th scope="col">Phone Number</th>
-                                <th scope="col">Company Email</th>
-                                <th scope="col">Hire Date</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php 
-                            $i = 1;
-                            $viewQuery = $conn -> prepare('SELECT * from payroll');
-                            $viewQuery  -> execute();
-                            $result = $viewQuery -> get_result();
-                            while ($row = $result->fetch_assoc()) {
-                        ?>
-                            <tr>
-                                <td><img src="../img/<?php echo $row['staffPicture'];?>" width="80" height="80"></td>
-                                <td><?php echo $row['staffFullName']; ?></td>
-                                <td><?php echo $row['staffNoPhone']; ?></td>
-                                <td><?php echo $row['staffEmail']; ?></td>
-                                <td><?php echo $row['staffHireDate']; ?></td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                                        View Details
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
+  <!-- Month/Year Slider -->
+ <div class="d-flex justify-content-between align-items-center px-4 py-3 bg-light border-bottom">
+    <button class="btn btn-outline-primary btn-sm" id="prevMonth">&lt;</button>
+    <input type="hidden" value="<?php echo $staffID?>" id="staffid">
+    <input type="hidden" value="admin" id="page">
+    <h4 id="monthLabel" class="m-0">June 2025</h4>
+    <button class="btn btn-outline-primary btn-sm" id="nextMonth">&gt;</button>
+  </div>
 
+  <!-- Staff Table -->
+  <!-- Payslip Display -->
+      <div class="container mt-4 "  id="payslipContainer">
+       <!-- <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Slip Gaji - <span id="displayMonth">June 2025</span></h5>
+    </div>
+    <div class="card-body">
+      <table class="table table-borderless">
+        <tr><th>Nama Pekerja:</th><td id="empName">Umar Syakir</td></tr>
+        <tr><th>Jawatan:</th><td id="empPosition">Software Developer</td></tr>
+        <tr><th>Gaji Pokok:</th><td id="basicSalary">RM 3,500</td></tr>
+        <tr><th>Elaun:</th><td id="allowance">RM 300</td></tr>
+        <tr><th>Potongan:</th><td id="deductions">RM 250</td></tr>
+        <tr class="table-primary">
+          <th>Gaji Bersih:</th><td id="netSalary">RM 3,550</td>
+        </tr>
+      </table>
+    </div>
+    <div class="card-footer text-end">
+      <button class="btn btn-outline-secondary btn-sm" onclick="window.print()">Cetak Slip</button>
+    </div>
+  </div> -->
+  
+      </div>
+      <div class="card-footer text-end">
+      
 
-                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"> Title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modalBody">
+    </div>
+      
 
-                    <table class="table table-bordered">
-                        <thead>
-                      
-                    <tr class="table-primary">
-                        <th scope="col">Staff Image</th>
-                        <th scope="col">Full Name</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Company Email</th>
-                        <th scope="col">Hire Date</th>
-                      </>
-                      <?php 
-                        $i = 1;
-                        $viewQuery = $conn -> prepare('SELECT * from staff');
-                                                $viewQuery  -> execute();
-                                                $result = $viewQuery -> get_result();
-                        while ($row = $result->fetch_assoc()) {
-                        
-                        ?>
-                        <tr>
-                            <th scope="row">
-                                <img src="../img/<?php echo $row['staffPicture'];?>" width="60">
-                            </th>
-                            <td><?php echo $row['staffFullName']; ?></td>
-                            <td><?php echo $row['staffNoPhone']; ?></td>
-                            <td><?php echo $row['staffEmail']; ?></td>
-                            <td><?php echo $row['staffHireDate']; ?></td>
-                            
-                        </tr>
-                        <?php } ?>
-                      </thead>
-                    
-                      
-                </table>
-                            
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                       
-                    </div>
-                    </div>
-                </div>
-                </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
-    <script src="test.js"></script>
+  <script src="../js/script.js"></script>
+
 </body>
-
 </html>
