@@ -151,165 +151,125 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="../css/staff_add.css">
 
 </head>
-
 <body>
 
-  <h2 style="text-align: center; margin-top: 0px;"> Staff Registration</h2>
-  <div class="container">
+  <h2 class="text-center mb-4">Staff Registration</h2>
 
-    <form method="post" action="" enctype="multipart/form-data">
+  <div class="container my-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card p-4" >
+          <form method="post" enctype="multipart/form-data">
 
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="fname" id="firstName" required>
+              </div>
+              <div class="col-md-4">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="lname" id="lastName" required>
+              </div>
+              <div class="col-md-4">
+                <label for="dob" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" name="dob" id="dob" required>
+              </div>
+            </div>
 
-      <div class="row justify-content-center">
-        <div class="col-3">
-          <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" class="form-control" name="fname" id="firstName" placeholder="First Name" />
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" class="form-control" name="lname" id="lastName" placeholder="Last Name" />
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="form-group">
-            <label for="dob">Date of Birth</label>
-            <input type="date" class="form-control" name="dob" id="dob" />
-          </div>
-        </div>
-      </div>
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" name="pnum" id="phone" required>
+              </div>
+              <div class="col-md-4">
+                <label for="email" class="form-label">Company Email</label>
+                <input type="email" class="form-control" name="email" id="email" value="<?php echo $randomEmail ?>" readonly>
+              </div>
+              <div class="col-md-4">
+                <label for="department" class="form-label">Department</label>
+                <select class="form-select" name="department" id="department" required>
+                  <option selected disabled>Choose Department</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Accounting">Accounting</option>
+                  <option value="Marketing">Marketing</option>
+                </select>
+              </div>
+            </div>
 
-      <div class="row justify-content-center mt-4">
-        <div class="col-2">
-          <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="text" class="form-control" name="pnum" id="phone" placeholder="Phone Number" />
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="form-group">
-            <label for="email">Company Email</label>
-            <input type="email" class="form-control" name="email" id="email" value="<?php echo $randomEmail ?>"
-              readonly />
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="form-group">
-            <label for="department">Department</label>
-            <select class="form-select" name="department" id="deparment">
-              <option selected disabled style="text-align: center;">Deparment</option>
-              <option value="Sales" style="text-align: center;">Sales</option>
-              <option value="Accounting" style="text-align: center;">Accounting</option>
-              <option value="Marketing" style="text-align: center;">Marketing</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="form-group">
-            <label for="role">Role</label>
-            <select class="form-select" name="role" id="role">
-              <option selected disabled style="text-align: center;">Role</option>
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label for="role" class="form-label">Role</label>
+                <select class="form-select" name="role" id="role" required>
+                  <option selected disabled>Choose Role</option>
+                  <optgroup label="Sales">
+                    <option value="Sales Manager">Manager</option>
+                    <option value="Sales Operator">Operator</option>
+                    <option value="Sales Customer Service">Customer Services</option>
+                  </optgroup>
+                  <optgroup label="Accounting">
+                    <option value="Accounting Executive">Executive</option>
+                    <option value="Accounting Auditor">Auditor</option>
+                  </optgroup>
+                  <optgroup label="Marketing">
+                    <option value="Marketing Manager">Manager</option>
+                    <option value="Marketing Promoter">Promoter</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="staffIC" class="form-label">Staff IC</label>
+                <input type="text" class="form-control" name="staffIC" id="staffIC" required>
+              </div>
+              <div class="col-md-4">
+                <label for="salary" class="form-label">Salary (RM)</label>
+                <input type="number" class="form-control" name="salary" id="salary" required>
+              </div>
+            </div>
 
-              <optgroup label="Sales">
-                <option value="Sales Manager">Manager</option>
-                <option value="Sales Operator">Operator</option>
-                <option value="Sales Customer Service">Customer Services</option>
-              </optgroup>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="picture" class="form-label">Picture (.jpg)</label>
+                <input type="file" class="form-control" name="picture" id="picture" accept=".jpg" required>
+              </div>
+            </div>
 
-              <optgroup label="Accounting">
-                <option value="Accounting Executive">Executive</option>
-                <option value="Accounting Auditor">Auditor</option>
-              </optgroup>
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <label for="address1" class="form-label">Address Line 1</label>
+                <input type="text" class="form-control" name="address1" id="address1" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <input type="text" class="form-control" name="address2" id="address2" placeholder="Address Line 2 (Optional)">
+              </div>
+            </div>
 
-              <optgroup label="Marketing">
-                <option value="Marketing Manager">Manager</option>
-                <option value="Marketing Promoter">Promoter</option>
-              </optgroup>
-            </select>
+            <div class="row mb-4">
+              <div class="col-md-4">
+                <label for="postcode" class="form-label">Postcode</label>
+                <input type="text" class="form-control" name="postcode" id="postcode" required>
+              </div>
+              <div class="col-md-4">
+                <label for="state" class="form-label">State</label>
+                <input type="text" class="form-control" name="state" id="state" required>
+              </div>
+              <div class="col-md-4">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" class="form-control" name="country" id="country" required>
+              </div>
+            </div>
 
-          </div>
-        </div>
-      </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Add Staff</button>
+            </div>
 
-      <div class="row justify-content-center mt-4">
-        <div class="col-2">
-          <div class="form-group">
-            <label for="citizenId">Staff IC</label>
-            <input type="text" class="form-control" name="staffIC" id="staffIC" placeholder="Staff IC" />
-          </div>
-        </div>
-        <div class="col-2">
-          <div class="form-group">
-            <label for="salary">Salary</label>
-            <input type="text" class="form-control" name="salary" id="salary" placeholder="e.g. RM1000" />
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="form-group">
-            <label for="picture">Picture (.jpg)</label>
-            <input type="file" class="form-control" name="picture" id="picture" accept=".jpg" />
-          </div>
-        </div>
-      </div>
-
-      <div class="row justify-content-center mt-4">
-        <div class="col-10">
-          <div class="form-group">
-            <label for="address1">Address Line 1</label>
-            <input type="text" class="form-control" name="address1" id="address1" placeholder="Address Line 1" />
-          </div>
-        </div>
-      </div>
-
-      <div class="row justify-content-center mt-3">
-        <div class="col-10">
-          <div class="form-group">
-            <input type="text" class="form-control" name="address2" id="address2"
-              placeholder="Address Line 2 (Optional)" />
-          </div>
+          </form>
         </div>
       </div>
-
-      <div class="row justify-content-center mt-3">
-        <div class="col-3">
-          <div class="form-group">
-            <label for="postcode">Postcode</label>
-            <input type="text" class="form-control" name="postcode" id="postcode" placeholder="Postcode" />
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="form-group">
-            <label for="state">State</label>
-            <input type="text" class="form-control" name="state" id="state" placeholder="State" />
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="form-group">
-            <label for="country">Country</label>
-            <input type="text" class="form-control" name="country" id="country" placeholder="Country" />
-          </div>
-        </div>
-      </div>
-
-
-      <div class="row justify-content-center mt-3">
-        <button class="btn btn-primary" id="add">Add</button>
-      </div>
-
-    </form>
-
-
-  </div>
+    </div>
   </div>
 
-
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-    crossorigin="anonymous"></script>
-  <script src="../asset/sidebar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

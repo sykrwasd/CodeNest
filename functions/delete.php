@@ -9,20 +9,24 @@ $type = $_POST['type']; // e.g., 'request', 'staff', 'payroll'
     switch ($type) {
         case 'request':
             $requestID = $_POST['requestID'];
-            $query = "DELETE FROM request_updates WHERE requestID=$requestID";
+            $query = "DELETE FROM request_updates WHERE requestID=?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("i", $requestID);
+            $result = $stmt->execute();
             break;
         case 'staff':
             echo '<script>alert("this is from view_staff"); window.history.back();</script>';
             break;
          case 'performance':
             $performID = $_POST['performID'];
-            $query = "DELETE FROM performance WHERE performID=$performID";
+            $query = "DELETE FROM performance WHERE performID=?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("i", $performID);
+            $result = $stmt->execute();
             break;   
         default:
             die("Invalid update type.");
     }
-
-$result = mysqli_query($conn, $query);
 
 if ($result) {
     echo '<script>alert("Deleted"); window.history.back();</script>';

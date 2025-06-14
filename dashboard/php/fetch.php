@@ -83,7 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SELECT staff.*, payroll.*
             FROM staff 
             INNER JOIN payroll ON staff.staffID = payroll.staffID
-            WHERE staff.staffID = '$staffID' AND DATE_FORMAT(payroll.payDate, '%Y-%m') = '$date'");
+            WHERE staff.staffID = ? AND DATE_FORMAT(payroll.payDate, '%Y-%m') = ?");
+        $query->bind_param("ss", $staffID, $date);
         $query->execute();
         $result = $query->get_result();
 
@@ -99,7 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SELECT p.*, s.staffFullName 
             FROM payroll p 
             INNER JOIN staff s ON p.staffID = s.staffID
-            WHERE DATE_FORMAT(p.payDate, '%Y-%m') = '$date'");
+            WHERE DATE_FORMAT(p.payDate, '%Y-%m') = ?");
+        $query->bind_param("s", $date);
         $query->execute();
         $result = $query->get_result();
 

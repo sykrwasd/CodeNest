@@ -19,11 +19,11 @@ $staffID = $_SESSION['staffID'];
 
           $insertRequest = "INSERT INTO request_updates (
             requestID,inbox,status,staffID
-          ) VALUES (
-            '$requestID', '$content', 'Unread', '$staffID'
-          )";
+          ) VALUES (?, ?, 'Unread', ?)";
 
-          $result = mysqli_query($conn, $insertRequest);
+          $stmt = $conn->prepare($insertRequest);
+          $stmt->bind_param("isi", $requestID, $content, $staffID);
+          $result = $stmt->execute();
 
           if ($result) {
               echo "<script>alert('Request Added Successfully');

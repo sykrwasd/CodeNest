@@ -55,13 +55,14 @@ include '../config/database.php';
                 $deduction = ($gross * 0.11) + ($gross * 0.12) + ($gross * 0.13);
                 $net = $gross - $deduction;
 
-                // Insert ke dalam jadual payroll
+                // Insert into payroll table
                 $insert = "INSERT INTO payroll (
                     payrollID, salaryID, payDate, bonus, deduction, netsalary, staffID
-                ) VALUES (
-                    '$payrollID', '".$row['salaryID']."', '$date', '0', '0', '$net', '".$row['staffID']."'
-                )";
-                mysqli_query($conn, $insert);
+                ) VALUES (?, ?, ?, '0', '0', ?, ?)";
+                
+                $stmt = $conn->prepare($insert);
+                $stmt->bind_param("iisdi", $payrollID, $row['salaryID'], $date, $net, $row['staffID']);
+                $stmt->execute();
 
                 echo "<tr>";
                 echo "<td>".$row['salaryID']."</td>";

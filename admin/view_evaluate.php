@@ -10,14 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $remarks = $_POST['remark'];
     $status = 'Unchecked';
 
-    
     $insertPerformance = "INSERT INTO performance (
         performID, evaluatorID, evaluateeID, evaluateDate, remarks, status
-    ) VALUES (
-        '$performanceID', '$evaluatorID', '$evaluateeID', '$evaluateDate', '$remarks', '$status'
-    )";
-
-    $performanceResult = mysqli_query($conn, $insertPerformance);
+    ) VALUES (?, ?, ?, ?, ?, ?)";
+    
+    $stmt = $conn->prepare($insertPerformance);
+    $stmt->bind_param("iissss", $performanceID, $evaluatorID, $evaluateeID, $evaluateDate, $remarks, $status);
+    $performanceResult = $stmt->execute();
 
     if ($performanceResult) {
         echo "<script>alert('Evaluation submitted successfully.'); window.location.href = window.location.href;</script>";

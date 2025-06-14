@@ -1,6 +1,9 @@
 <?php
 include('../config/database.php');
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,33 +50,34 @@ include('../config/database.php');
             <td><?php echo $row['staffEmail']; ?></td>
             <td><?php echo $row['staffHireDate']; ?></td>
             <td class="text-center">
-              <form action="../functions/update.php" method="post" class="d-inline-block">
+              
+              <form action="../functions/delete.php" method="post" class="d-inline-block">
+                <input type="hidden" name="staffID" value="<?php echo $row['staffID'] ?>">
                 <input type="hidden" name="type" value="staff">
-                <button type="submit" name="mark_read" class="btn btn-success btn-sm">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-              </form>
-              <form action="delete_request.php" method="post" class="d-inline-block">
-                <input type="hidden" name="updateID" value="<?php echo $row['updateID'] ?>">
-                <button type="submit" name="mark_read" class="btn btn-danger btn-sm">
-                  <i class="fa-solid fa-trash"></i>
+                <button type="submit" name="delete" class="btn btn-danger btn-sm">
+                  <i class="fa-solid fa-trash"></i> Delete Staff
                 </button>
               </form>
             </td>
           </tr>
         <?php } ?>
+        
       </tbody>
     </table>
   </div>
 
   <div class="text-center my-3">
-    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+   <a href="?page=update_staff" class="btn btn-success btn-sm">
+  <i class="fa-solid fa-pen"></i> Edit Staff
+</a>
+
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staffModal">
       <i class="fa-solid fa-eye"></i> View Full Details
     </button>
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- staff modal -->
+  <div class="modal fade" id="staffModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
@@ -116,6 +120,7 @@ include('../config/database.php');
     </div>
   </div>
 
+  
   <!-- JS Dependencies -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
@@ -123,12 +128,6 @@ include('../config/database.php');
   <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.min.js"></script>
   <script src="../js/script.js"></script>
-  <script>
-
-    new DataTable('#dataTable');
-  </script>
-
-
   
 </body>
 
