@@ -3,6 +3,8 @@ fetch('../dashboard/php/fetch.php')
     .then(response => response.json())
     .then(data => {
         document.getElementById('totalStaff').textContent = data.total_staff;
+        document.getElementById('totalRequest').textContent = data.total_request;
+        document.getElementById('totalEvaluation').textContent = data.total_eval;
         createStatusDoughnutChart(data);
         createDepartmentPieChart(data);
     })
@@ -78,7 +80,7 @@ function createStatusDoughnutChart(data) {
       responsive: false,
       plugins: {
         legend: {
-          position: 'bottom'
+          position: 'top'
         },
         title: {
         display: true,

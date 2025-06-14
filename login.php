@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $row = $result->fetch_assoc();
         $storedPassword = $row['userPassword'];
 
-       if ($storedPassword == "newuser") {
+        if ($storedPassword === "newuser") {
             echo '<script>
                 alert("New user detected");
                 window.location.href = "./register.php";
@@ -23,39 +23,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             exit(); 
         }
 
-       
         if (password_verify($password, $storedPassword) || $password == $storedPassword) {
             $_SESSION['userEmail'] = $row['userEmail'];
             $_SESSION['userID'] = $row['userID'];   
             $_SESSION['category'] = $row['category'];
 
             if ($_SESSION['category'] == 'admin') {
-
-                        
-            $query = $conn->prepare('SELECT * FROM admin WHERE adminEmail = ?');
-            $query->bind_param('s', $userEmail);
-            $query->execute();
-            $result = $query->get_result();
-
-            $_SESSION['adminID'] = $result->fetch_assoc()['adminID'];
-
-            header("Location: ./admin/admin_sidebar.php");
+                $query = $conn->prepare('SELECT * FROM admin WHERE adminEmail = ?');
+                $query->bind_param('s', $userEmail);
+                $query->execute();
+                $result = $query->get_result();
+                $_SESSION['adminID'] = $result->fetch_assoc()['adminID'];
+                header("Location: ./admin/admin_sidebar.php");
             } else {
-   
-            $query = $conn->prepare('SELECT * FROM staff WHERE staffEmail = ?');
-            $query->bind_param('s', $userEmail);
-            $query->execute();
-            $result = $query->get_result();
-
-            $_SESSION['staffID'] = $result->fetch_assoc()['staffID'];
-
-                header("Location: ./user/user_sidebar.php"); // Adjust as needed
+                $query = $conn->prepare('SELECT * FROM staff WHERE staffEmail = ?');
+                $query->bind_param('s', $userEmail);
+                $query->execute();
+                $result = $query->get_result();
+                $_SESSION['staffID'] = $result->fetch_assoc()['staffID'];
+                header("Location: ./user/user_sidebar.php");
             }
             exit();
         } else {
             echo '<script>
                 alert("Incorrect password.");
-                //window.history.back();
+                window.history.back();
             </script>';
         }
     } else {

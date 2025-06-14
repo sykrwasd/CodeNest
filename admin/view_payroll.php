@@ -61,6 +61,7 @@ $staffID = $_SESSION['staffID'];
       
 
   <script src="../js/script.js"></script>
+  
 
 </body>
 </html>

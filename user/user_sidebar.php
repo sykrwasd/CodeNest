@@ -37,7 +37,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'user_dashboard'; // set default 
                 </li>
                 <li class="sidebar-item">
                     <a href="?page=view_payroll" class="sidebar-link">
-                        <i class="lni lni-coin"></i>
+                        <i class="lni lni-money-location"></i>
                         <span>View Payroll</span>
                     </a>
                 </li>
@@ -47,16 +47,15 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'user_dashboard'; // set default 
                         <span>View Payslip</span>
                     </a>
                 </li>
-                 
                 <li class="sidebar-item">
                     <a href="?page=request" class="sidebar-link">
-                        <i class="lni lni-envelope"></i>
+                        <i class="lni lni-calendar"></i>
                         <span>Request</span>
                     </a>
                 </li>
-                 <li class="sidebar-item">
+                <li class="sidebar-item">
                     <a href="?page=user_evaluate" class="sidebar-link">
-                         <i class="lni lni-envelope"></i>
+                        <i class="lni lni-envelope"></i>
                         <span>Evaluation</span>
                     </a>
                 </li>

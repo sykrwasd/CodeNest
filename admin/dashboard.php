@@ -13,71 +13,81 @@
 </head>
 
 <body>
-    <div class="content container-fluid p-3">
+    <div class="content container-fluid ">
 
-        <div class="row">
-
-            <div class="col-md-3">
-                <div class="card shadow rounded-4 border-0" style="background-color: #ffd463">
-                    <div class="card-body">
-                        <h6 class="card-title">Total Staff</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h4 id="totalStaff" class="mb-0 fw-bold fs-5">...</h4>
-                            <i class="bi bi-people zfs-3"></i>
+        <div class="card mt-1">
+            <div class="card-header bg-white">
+                    <h5 class="mb-0">Hello, Administrator</h5>
+                </div>
+            <div class="row mb-4 px-1">
+    
+                <div class="col-md-3">
+                    <div class="card shadow rounded-4 border-0 mt-4" style="background-color:rgb(246, 221, 156)">
+                        <div class="card-body">
+                            <h6 class="card-title">Total Staff</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 id="totalStaff" class="mb-0 fw-bold fs-5">...</h4>
+                                <i class="bi bi-people zfs-3"></i>
+                            </div>
+                            <p class="small text-muted mb-0">Number of staff</p>
                         </div>
-                        <p class="small text-muted mb-0">Number of staff</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow rounded-4 border-0" style="background-color: #ffd463">
-                    <div class="card-body">
-                        <h6 class="card-title">Total Staff</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h4 id="totalRequest" class="mb-0 fw-bold fs-5">...</h4>
-                            <i class="bi bi-people zfs-3"></i>
+                <div class="col-md-3">
+                    <div class="card shadow rounded-4 border-0 mt-4" style="background-color:rgb(133, 198, 255)">
+                        <div class="card-body">
+                            <h6 class="card-title">Total Request</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 id="totalRequest" class="mb-0 fw-bold fs-5">...</h4>
+                                <i class="bi bi-people zfs-3"></i>
+                            </div>
+                            <p class="small text-muted mb-0">Number of Request</p>
                         </div>
-                        <p class="small text-muted mb-0">Total Request</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow rounded-4 border-0" style="background-color: #ffd463">
-                    <div class="card-body">
-                        <h6 class="card-title">Total Staff</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h4 id="totalEvaluation" class="mb-0 fw-bold fs-5">...</h4>
-                            <i class="bi bi-people zfs-3"></i>
+                <div class="col-md-3">
+                    <div class="card shadow rounded-4 border-0 mt-4" style="background-color:rgb(200, 255, 160)">
+                        <div class="card-body">
+                            <h6 class="card-title">Total Evaluation</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 id="totalEvaluation" class="mb-0 fw-bold fs-5">...</h4>
+                                <i class="bi bi-people zfs-3"></i>
+                            </div>
+                            <p class="small text-muted mb-0">Number of Evaluation</p>
                         </div>
-                        <p class="small text-muted mb-0">Total Evaluation</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow rounded-4 border-0" style="background-color: #ffd463">
-                    <div class="card-body">
-                        <h6 class="card-title">Total Staff</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h4 id="totalStaff" class="mb-0 fw-bold fs-5">...</h4>
-                            <i class="bi bi-people zfs-3"></i>
+                <div class="col-md-3">
+                    <div class="card shadow rounded-4 border-0 mt-4" style="background-color:rgb(244, 189, 126)">
+                        <div class="card-body">
+                            <h6 class="card-title">Total Staff</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 id="totalStaff" class="mb-0 fw-bold fs-5">...</h4>
+                                <i class="bi bi-people zfs-3"></i>
+                            </div>
+                            <p class="small text-muted mb-0">Number of staff</p>
                         </div>
-                        <p class="small text-muted mb-0">Number of staff</p>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="card mt-2">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Work Analytics</h5>
+                </div>
+               
 
 
-    </div>
-    <div class="row mt-4 g-0">
-
-        <div class="col-md-6 d-flex justify-content-center p-0 m-0">
-            <canvas id="pieChart" width="400" height="400"></canvas>
-        </div>
-        <div class="col-md-6 d-flex justify-content-center p-0 m-0">
-            <canvas id="doughnutChart" width="400" height="400"></canvas>
-        </div>
+                    <div class="row mt-4 g-0 mb-4">
+                
+                        <div class="col-md-4 d-flex justify-content-center p-0 m-0">
+                            <canvas id="pieChart" width="250" height="250"></canvas>
+                        </div>
+                        <div class="col-md-4 d-flex justify-content-center p-0 m-0">
+                            <canvas id="doughnutChart" width="250" height="250"></canvas>
+                        </div>
+                    </div>
     </div>
 
 </body>

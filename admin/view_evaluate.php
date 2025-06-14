@@ -28,11 +28,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="../css/view_staff.css">
+</head>
+<body>
+    
 <div class="container bg-white p-4 rounded shadow-sm">
     <h3 class="mb-4 text-center">All Staff Evaluations</h3>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle text-center">
+        <table class="table table-bordered table-hover align-middle text-center" id="dataTable">
             <thead class="table-dark">
                 <tr>
                     <th><i class="fa-solid fa-id-badge"></i> Evaluation ID</th>
@@ -139,3 +155,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
     </div>
   </div>
+
+</body>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.min.js"></script>
+  <script src="../js/script.js"></script>
+  <script>
+
+    new DataTable('#dataTable');
+  </script>
+
+</html>

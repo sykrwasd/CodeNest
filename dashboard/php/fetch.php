@@ -12,6 +12,24 @@ if ($result && $result->num_rows > 0) {
     $data['total_staff'] = $row['total_staff'];
 }
 
+// Get total request
+$sql = "SELECT COUNT(*) AS total_request FROM request_updates";
+$result = $conn->query($sql);
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $data['total_request'] = $row['total_request'];
+}
+
+// Get total evaluation
+$sql = "SELECT COUNT(*) AS total_eval FROM performance";
+$result = $conn->query($sql);
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $data['total_eval'] = $row['total_eval'];
+}
+
+
+
 // Get total Factory staff
 $sql = "SELECT COUNT(*) AS total_service FROM staff WHERE staffDepartment = 'Service'";
 $result = $conn->query($sql);

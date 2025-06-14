@@ -24,12 +24,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($ic == $StaffIC) {
 
             if($password == $confirmPassword){
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
                 
-                $update = "UPDATE user SET userPassword='$password' WHERE userEmail='$userEmail'"; 
+                $update = $conn->prepare("UPDATE user SET userPassword = ? WHERE userEmail = ?");
+                $update->bind_param("ss", $hashedPassword, $userEmail);
                 
-                 $query = mysqli_query($conn, $update);
                  
-                $message = "Account Created Succesfully";
+                if ($update->execute()) {
+                    $message = "Account Created Successfully";
+                } else {
+                    echo "<script>alert('Failed to update password');</script>";
+                }
                   
             }
         } else {

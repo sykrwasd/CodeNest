@@ -10,8 +10,8 @@ $sql = "SELECT *
         WHERE staff.staffID = '$id'";
 $query = mysqli_query($conn, $sql);
 
-while($siswa = mysqli_fetch_array($query)) {
-    $gross = $siswa['basicSalary'] + $siswa['allowance'];
+while($row = mysqli_fetch_array($query)) {
+    $gross = $row['basicSalary'] + $row['allowance'];
     $kwsp = $gross * 0.11;
     $socso = $gross * 0.002;
     $eis = $gross * 0.005;
@@ -40,10 +40,10 @@ while($siswa = mysqli_fetch_array($query)) {
         <div class="mb-4">
             <h6>Employee Information</h6>
             <table class="table table-sm">
-                <tr><td>Staff ID</td><td>: <?php echo $siswa['staffID']; ?></td></tr>
-                <tr><td>Name</td><td>: <?php echo $siswa['staffFullName']; ?></td></tr>
-                <tr><td>Department</td><td>: <?php echo $siswa['staffDepartment']; ?></td></tr>
-                <tr><td>Hire Date</td><td>: <?php echo $siswa['staffHireDate']; ?></td></tr>
+                <tr><td>Staff ID</td><td>: <?php echo $row['staffID']; ?></td></tr>
+                <tr><td>Name</td><td>: <?php echo $row['staffFullName']; ?></td></tr>
+                <tr><td>Department</td><td>: <?php echo $row['staffDepartment']; ?></td></tr>
+                <tr><td>Hire Date</td><td>: <?php echo $row['staffHireDate']; ?></td></tr>
             </table>
         </div>
 
@@ -54,8 +54,8 @@ while($siswa = mysqli_fetch_array($query)) {
                     <tr><th>Description</th><th>Amount (RM)</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>Basic Salary</td><td><?php echo number_format($siswa['basicSalary'], 2); ?></td></tr>
-                    <tr><td>Allowance</td><td><?php echo number_format($siswa['allowance'], 2); ?></td></tr>
+                    <tr><td>Basic Salary</td><td><?php echo number_format($row['basicSalary'], 2); ?></td></tr>
+                    <tr><td>Allowance</td><td><?php echo number_format($row['allowance'], 2); ?></td></tr>
                     <tr class="table-success"><td><strong>Total Gross</strong></td><td><strong><?php echo number_format($gross, 2); ?></strong></td></tr>
                 </tbody>
             </table>

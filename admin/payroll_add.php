@@ -1,4 +1,7 @@
-<?php include '../config/database.php'; ?>
+<?php 
+include '../config/database.php'; 
+
+?>
 
 <!DOCTYPE html>
 <html>
@@ -29,7 +32,6 @@
         </form>
 
         <?php
-        // Jalankan hanya jika borang dihantar
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date'])) {
             $date = $_POST['date'];
             $sql = "SELECT * FROM salary";
@@ -47,9 +49,9 @@
                   </thead>
                   <tbody>";
 
-            while ($siswa = mysqli_fetch_array($query)) {
+            while ($row = mysqli_fetch_array($query)) {
                 $payrollID = rand(100000, 999999);
-                $gross = $siswa['basicSalary'] + $siswa['allowance'];
+                $gross = $row['basicSalary'] + $row['allowance'];
                 $deduction = ($gross * 0.11) + ($gross * 0.12) + ($gross * 0.13);
                 $net = $gross - $deduction;
 
@@ -57,16 +59,16 @@
                 $insert = "INSERT INTO payroll (
                     payrollID, salaryID, payDate, bonus, deduction, netsalary, staffID
                 ) VALUES (
-                    '$payrollID', '".$siswa['salaryID']."', '$date', '0', '0', '$net', '".$siswa['staffID']."'
+                    '$payrollID', '".$row['salaryID']."', '$date', '0', '0', '$net', '".$row['staffID']."'
                 )";
                 mysqli_query($conn, $insert);
 
                 echo "<tr>";
-                echo "<td>".$siswa['salaryID']."</td>";
+                echo "<td>".$row['salaryID']."</td>";
                 echo "<td>".number_format($gross, 2)."</td>";
                 echo "<td>".number_format($deduction, 2)."</td>";
                 echo "<td>".number_format($net, 2)."</td>";
-                echo "<td>".$siswa['staffID']."</td>";
+                echo "<td>".$row['staffID']."</td>";
                 echo "</tr>";
             }
 

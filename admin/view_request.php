@@ -8,23 +8,27 @@ $adminID = $_SESSION['userID'];
 
 ?>
 
-<!-- Add Font Awesome CDN in your page's <head> if not already included -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-      integrity="sha512-pO3Cz4PiODsjixgH0M3mqJe6Vrx/ovOW3BJ6Fx3Xy7eRO1THXt/1zLQ7u+XDfM80Rk8+3nj2yl1p8S2bW2E1Lg==" 
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
 <div class="container bg-white p-4 rounded shadow-sm">
     <h3 class="mb-4 text-center">All Staff Requests</h3>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle text-center">
+        <table class="table table-bordered table-hover align-middle text-center" id="dataTable">
             <thead class="table-dark text-center">
                 <tr>
                     <th><i class="fa-solid fa-id-badge"></i> Request ID</th>
                     <th><i class="fa-solid fa-user"></i> From</th>
-                    <th><i class="fa-solid fa-envelope-open-text"></i> Request</th>
-                    <th><i class="fa-solid fa-info-circle"></i> Status</th>
-                    <th><i class="fa-solid fa-gear"></i> Action</th>
+                    <th><i class="fa-solid fa-envelope-open-text"></i>Request</th>
+                    <th><i class="fa-solid fa-info-circle"></i>Status</th>
+                    <th><i class="fa-solid fa-gear"></i>Action</th>
                 </tr>
             </thead>
             <tbody id="requestTable">
@@ -72,3 +76,20 @@ $adminID = $_SESSION['userID'];
         </table>
     </div>
 </div>
+
+</body>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.min.js"></script>
+  <script src="../js/script.js"></script>
+  <script>
+
+    new DataTable('#dataTable');
+  </script>
+
+</html>
+
+<!-- Add Font Awesome CDN in your page's <head> if not already included -->
+

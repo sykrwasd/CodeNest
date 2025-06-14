@@ -1,4 +1,6 @@
 window.addEventListener("DOMContentLoaded", () => {
+ 
+
   let currentMonth = 5; // June (0-based)
   let currentYear = 2025;
 
@@ -166,6 +168,8 @@ function fetchStaffPayroll(staffid, formattedDate) {
     .catch((error) => console.error("Fetch error:", error));
 }
 
+
+
 });
 
 function printToPDF() {
@@ -179,3 +183,6 @@ document.body.innerHTML = originalContents;
 // Restore original scripts/styles if needed
 location.reload(); // optional: reloads to re-bind JS events
 }
+
+
+  

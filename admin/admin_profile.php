@@ -11,7 +11,16 @@ $result = $viewQuery->get_result();
 while ($row = $result->fetch_assoc()) {
 ?>
 
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+</head>
+<body>
+  
 <div class="container my-4 p-4 border rounded shadow-sm" style="max-width: 700px;">
   <div class="text-center mb-4">
     <h2 class="mt-3" id="adminFullName"><?php echo htmlspecialchars($row['adminFullName']); ?></h2>
@@ -58,3 +67,7 @@ while ($row = $result->fetch_assoc()) {
 
 
 <?php } ?>
+
+</body>
+</html>
+
