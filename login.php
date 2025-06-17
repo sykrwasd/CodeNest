@@ -60,104 +60,86 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login Page</title>
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body id="login">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-transparent mb-4">
-  <a class="navbar-brand" href="#"><img src="img/logo.png" height="80">NazaCorp</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="login.php">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="about.php">About Us</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="contact.php">Contact</a>
-      </li>
-    </ul>
+  <div class="card shadow-lg border-0 rounded-4 bg-light mx-auto mt-5" style="width: 100%; max-width: 450px;">
+    <div class="card-header bg-primary text-white text-center">
+      <h3>Login</h3>
+    </div>
+    <div class="card-body">
+      <form action="" method="post">
+        <div class="mb-3">
+          <input type="email" class="form-control" name="userid" placeholder="Company Email" required>
+        </div>
+        <div class="mb-3">
+          <input type="password" class="form-control" name="password" placeholder="Password" required>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+        <div class="mt-3 text-center">
+          <p class="mb-1">New Staff? <a href="register.php">Verify Here</a></p>
+          
+        </div>
+      </form>
+    </div>
+    <div class="card-footer text-muted text-center">
+      Having issues? Contact <strong>HR Support</strong> at <a href="mailto:hr@naza.com.my">hr@naza.com.my</a> or call +603-2386 8000.
+    </div>
   </div>
-</nav>
+</div>
 
-    <div class="container"
-        <h2>Login</h2>
-        <form action="" method="post">
-            <div>
-                <input type="email" placeholder="Email" name="userid" required>
-            </div>
-            <div>
-                <input type="password" placeholder="Password" name="password" >
-            </div>
-            <div>
-                <button type="submit">Login</button>
-            </div>
-            <a>New Staff? Verify <a href="register.php">Here.</a></a> <br>
-             <a href="login.php">Forgot Password?</a>
-        </form>
+<!-- View Staff Modal Trigger -->
+<div class="text-center mt-4">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">View Staff</button>
+</div>
 
-        </div><br>
-            
-             <button type="submit" data-bs-toggle="modal" data-bs-target="#myModal">View Staff</button>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Staff List</h5>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-hover">
+          <thead class="table-primary text-center">
+            <tr>
+              <th scope="col">Full Name</th>
+              <th scope="col">Company Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php 
+              $viewQuery = $conn->prepare('SELECT * FROM staff');
+              $viewQuery->execute();
+              $result = $viewQuery->get_result();
+              while ($row = $result->fetch_assoc()) {
+            ?>
+              <tr class="text-center">
+                <td><?= $row['staffFullName']; ?></td>
+                <td><?= $row['staffEmail']; ?></td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 
-                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Staff List</h5>
-                        </div>
-
-                        <div class="modal-body" id="modalBody">
-                            <table class="table table-bordered table-hover staff-table">
-                            <thead class="table-primary text-center">
-                                <tr>
-                                <th scope="col">Full Name</th>
-                                <th scope="col">Company Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                $viewQuery = $conn->prepare('SELECT * FROM staff');
-                                $viewQuery->execute();
-                                $result = $viewQuery->get_result();
-                                while ($row = $result->fetch_assoc()) {
-                                ?>
-                                <tr class="text-center">
-                                    <td><?php echo $row['staffFullName']; ?></td>
-                                    <td><?php echo $row['staffEmail']; ?></td>
-                                </tr>
-                                <?php } ?>
-                            </tbody>
-                            </table>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                        </div>
-
-                        </div>
-                    </div>
-                    </div>
-
-                        
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+  crossorigin="anonymous"></script>
 </body>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
 </html>
