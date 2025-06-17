@@ -49,11 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/view_staff.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
     <!-- Staff Select Form -->
-    <form action="" method="post" class="mb-4">
+    <form action=" " method="post" class="mb-4">
           <p>Select Staff</p>
         <select  name="id">
         <?php 
@@ -105,8 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </thead>
             <tbody>
                 <tr><td>KWSP (11%)</td><td><?php echo number_format($payslipData['kwsp'], 2); ?></td></tr>
-                <tr><td>SOCSO (0.2%)</td><td><?php echo number_format($payslipData['socso'], 2); ?></td></tr>
-                <tr><td>EIS (0.5%)</td><td><?php echo number_format($payslipData['eis'], 2); ?></td></tr>
+                <tr><td>SOCSO (0.002%)</td><td><?php echo number_format($payslipData['socso'], 2); ?></td></tr>
+                <tr><td>EIS (0.005%)</td><td><?php echo number_format($payslipData['eis'], 2); ?></td></tr>
                 <tr class="table-danger"><td><strong>Total Deduction</strong></td><td><strong><?php echo number_format($payslipData['totalDeduction'], 2); ?></strong></td></tr>
             </tbody>
         </table>

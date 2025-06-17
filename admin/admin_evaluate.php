@@ -2,7 +2,6 @@
 include '../config/database.php';
 
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $performanceID = rand(100000, 999999);
     $evaluatorID = $_POST['ev'];
@@ -22,7 +21,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $performanceResult = mysqli_query($conn, $insertPerformance);
 
     if ($performanceResult) {
-        echo "<script>alert('Evaluation submitted successfully.'); window.location.href = window.location.href;</script>";
+        echo "<html>
+    <head>
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <link rel='stylesheet' href='../css/view_staff.css'>
+    </head>
+    <body>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Added',
+                text: 'Evaluation successfully Added',
+                confirmButtonText: 'Back'
+            }).then(() => {
+                window.history.back();
+            });
+        </script>
+    </body>
+    </html>";
     } else {
         echo "<script>alert('Database error: " . mysqli_error($conn) . "');</script>";
     }
@@ -39,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/sidebar.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -64,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         while ($row = $result->fetch_assoc()) {
                             ?>
                             <option value="<?php echo $row['staffID']; ?>">
-                                <?php echo $row['staffID']; ?>
+                               <?php echo $row['staffFullName']; ?>  - <?php echo $row['staffID']; ?> 
                             </option>
                         <?php } ?>
                     </select>

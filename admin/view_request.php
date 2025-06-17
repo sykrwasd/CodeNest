@@ -14,6 +14,7 @@ $adminID = $_SESSION['userID'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     
@@ -43,9 +44,13 @@ $adminID = $_SESSION['userID'];
                     <td><?php echo $row['requestID']; ?></td>
                     <td><a href="admin_sidebar.php?page=view_staff"><?php echo $row['staffID']; ?></a></td>
                     <td>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#req<?= $row['requestID'] ?>">
-                            <i class="fa-solid fa-eye"></i> View
-                        </button>
+                        <form action="?page=view_inbox" method="POST">
+                                    <input type="hidden" name="requestID" value="<?php echo $row['requestID'] ?>">
+                                    <input type="hidden" name="type" value="request">
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="fa-solid fa-eye"></i> View 
+                                    </button>
+                                </form>
                         <div id="req<?= $row['requestID'] ?>" class="collapse mt-2">
                             <textarea class="form-control" rows="10" readonly><?php echo $row['inbox']; ?></textarea>
                         </div>

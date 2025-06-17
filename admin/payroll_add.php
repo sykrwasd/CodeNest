@@ -9,6 +9,7 @@ include '../config/database.php';
     <title>Payroll Generator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
      <link rel="stylesheet" href="../css/view_staff.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -31,51 +32,71 @@ include '../config/database.php';
             </div>
         </form>
 
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date'])) {
-            $date = $_POST['date'];
-            $sql = "SELECT * FROM salary";
-            $query = mysqli_query($conn, $sql);
+       <?php
+include '../config/database.php';
 
-            echo "<table class='table table-bordered mt-5'>";
-            echo "<thead class='table-dark'>
-                    <tr>
-                        <th>Salary ID</th>
-                        <th>Gross Salary</th>
-                        <th>Deduction</th>
-                        <th>Net Salary</th>
-                        <th>Staff ID</th>
-                    </tr>
-                  </thead>
-                  <tbody>";
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date'])) {
+    $date = $_POST['date'];
 
-            while ($row = mysqli_fetch_array($query)) {
+    // Get all staff
+    $staffQuery = mysqli_query($conn, "SELECT * FROM staff");
+
+    echo "<table class='table table-bordered mt-5'>";
+    echo "<thead class='table-dark'>
+            <tr>
+                <th>Staff ID</th>
+                <th>Salary ID</th>
+                <th>Gross Salary</th>
+                <th>Deduction</th>
+                <th>Net Salary</th>
+            </tr>
+          </thead>
+          <tbody>";
+
+    while ($staff = mysqli_fetch_array($staffQuery)) {
+        $staffID = $staff['staffID'];
+
+        // Get salary details for this staff
+        $salaryQuery = $conn->prepare("SELECT * FROM salary WHERE staffID = ?");
+        $salaryQuery->bind_param("i", $staffID);
+        $salaryQuery->execute();
+        $salaryResult = $salaryQuery->get_result();
+
+        if ($salaryRow = $salaryResult->fetch_assoc()) {
+            $salaryID = $salaryRow['salaryID'];
+            $gross = $salaryRow['basicSalary'] + $salaryRow['allowance'];
+            $deduction = ($gross * 0.11) + ($gross * 0.002) + ($gross * 0.005);
+            $net = $gross - $deduction;
+
+            // Avoid duplicate insert
+            $check = $conn->prepare("SELECT * FROM payroll WHERE salaryID = ? AND payDate = ?");
+            $check->bind_param("is", $salaryID, $date);
+            $check->execute();
+            $checkResult = $check->get_result();
+
+            if ($checkResult->num_rows === 0) {
                 $payrollID = rand(100000, 999999);
-                $gross = $row['basicSalary'] + $row['allowance'];
-                $deduction = ($gross * 0.11) + ($gross * 0.12) + ($gross * 0.13);
-                $net = $gross - $deduction;
-
-                // Insert into payroll table
-                $insert = "INSERT INTO payroll (
+                $insert = $conn->prepare("INSERT INTO payroll (
                     payrollID, salaryID, payDate, bonus, deduction, netsalary, staffID
-                ) VALUES (?, ?, ?, '0', '0', ?, ?)";
-                
-                $stmt = $conn->prepare($insert);
-                $stmt->bind_param("iisdi", $payrollID, $row['salaryID'], $date, $net, $row['staffID']);
-                $stmt->execute();
-
-                echo "<tr>";
-                echo "<td>".$row['salaryID']."</td>";
-                echo "<td>".number_format($gross, 2)."</td>";
-                echo "<td>".number_format($deduction, 2)."</td>";
-                echo "<td>".number_format($net, 2)."</td>";
-                echo "<td>".$row['staffID']."</td>";
-                echo "</tr>";
+                ) VALUES (?, ?, ?, '0', '0', ?, ?)");
+                $insert->bind_param("iisdi", $payrollID, $salaryID, $date, $net, $staffID);
+                $insert->execute();
             }
 
-            echo "</tbody></table>";
+            echo "<tr>";
+            echo "<td>{$staffID}</td>";
+            echo "<td>{$salaryID}</td>";
+            echo "<td>" . number_format($gross, 2) . "</td>";
+            echo "<td>" . number_format($deduction, 2) . "</td>";
+            echo "<td>" . number_format($net, 2) . "</td>";
+            echo "</tr>";
         }
-        ?>
+    }
+
+    echo "</tbody></table>";
+}
+?>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

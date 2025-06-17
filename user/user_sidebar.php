@@ -1,6 +1,12 @@
 <?php
 session_start();
 $page = isset($_GET['page']) ? $_GET['page'] : 'user_dashboard'; // set default page to dashboard if not set
+if($_SESSION['category'] != 'staff'){
+    echo '<script>
+        alert("Access denied. Staff only.");
+        window.location.href = "../login.php";
+    </script>';
+}
 ?>
 
 <!DOCTYPE html>
@@ -10,11 +16,12 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'user_dashboard'; // set default 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Human Resource Admin</title>
+    <title>Naza Corp</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -25,7 +32,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'user_dashboard'; // set default 
                     <i class="lni lni-grid-alt"></i>
                 </button>
                 <div class="sidebar-logo">
-                    <a href="#">Code<span>Nest</span></a>
+                    <a href="#">Naza<span>Corp</span></a>
                 </div>
             </div>
             <ul class="sidebar-nav">
@@ -57,6 +64,12 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'user_dashboard'; // set default 
                     <a href="?page=user_evaluate" class="sidebar-link">
                         <i class="lni lni-envelope"></i>
                         <span>Evaluation</span>
+                    </a>
+                </li>
+                  <li class="sidebar-item">
+                    <a href="?page=inbox" class="sidebar-link">
+                       <i class="lni lni-inbox"></i>
+                        <span>Inbox</span>
                     </a>
                 </li>
             </ul>

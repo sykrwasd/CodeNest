@@ -3,6 +3,52 @@ include('../config/database.php');
 
 $type = $_POST['type'];
 
+function swalAndRedirect($icon, $title, $text, $redirect) {
+    echo "
+    <html>
+    <head>
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+         <link rel='stylesheet' href='../css/view_staff.css'>
+    </head>
+    <body>
+        <script>
+            Swal.fire({
+                icon: '$icon',
+                title: '$title',
+                text: '$text',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = '$redirect';
+            });
+        </script>
+    </body>
+    </html>";
+    exit;
+}
+
+function swalAndGoBack($icon, $title, $text) {
+    echo "
+    <html>
+    <head>
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+         <link rel='stylesheet' href='../css/view_staff.css'>
+    </head>
+    <body>
+        <script>
+            Swal.fire({
+                icon: '$icon',
+                title: '$title',
+                text: '$text',
+                confirmButtonText: 'Back'
+            }).then(() => {
+                window.history.back();
+            });
+        </script>
+    </body>
+    </html>";
+    exit;
+}
+
 switch ($type) {
     case 'request':
         $requestID = $_POST['requestID'];
@@ -10,10 +56,15 @@ switch ($type) {
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $requestID);
         $result = $stmt->execute();
+
+        if ($result) {
+            swalAndGoBack("success", "Updated", "Request marked as read.");
+        } else {
+            swalAndGoBack("error", "Error", "Failed to update request.");
+        }
         break;
 
     case 'staff':
-        // Get all submitted values
         $fullName = $_POST['fname'];
         $dob = $_POST['dob'];
         $phone = $_POST['pnum'];
@@ -22,7 +73,6 @@ switch ($type) {
         $staffIC = $_POST['staffIC'];
         $address = $_POST['address1'];
 
-        // Prepare the update statement
         $query = "UPDATE staff 
                   SET staffFullName = ?, 
                       staffDOB = ?, 
@@ -36,9 +86,9 @@ switch ($type) {
         $result = $stmt->execute();
 
         if ($result) {
-            echo '<script>alert("Staff updated successfully."); window.location.href = "../admin/admin_sidebar.php?page=view_staff";</script>';
+            swalAndRedirect("success", "Success", "Staff updated successfully.", "../admin/admin_sidebar.php?page=view_staff");
         } else {
-            echo '<script>alert("Error updating staff data: ' . $stmt->error . '"); window.history.back();</script>';
+            swalAndGoBack("error", "Error", "Error updating staff data: " . $stmt->error);
         }
         $stmt->close();
         break;
@@ -49,6 +99,12 @@ switch ($type) {
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $performID);
         $result = $stmt->execute();
+
+        if ($result) {
+            swalAndGoBack("success", "Updated", "Performance marked as read.");
+        } else {
+            swalAndGoBack("error", "Error", "Failed to update performance.");
+        }
         break;
 
     case 'payroll':
@@ -62,18 +118,11 @@ switch ($type) {
             $stmt->execute();
         }
 
-        echo '<script>alert("Payroll updated successfully."); window.history.back();</script>';
-        exit;
+        swalAndGoBack("success", "Updated", "Payroll updated successfully.");
+        break;
 
     default:
-        die("Invalid update type.");
-}
-
-if (isset($query) && $type != 'payroll') {
-    if ($result) {
-        echo '<script>alert("Updated successfully."); window.history.back();</script>';
-    } else {
-        echo "Error: " . mysqli_error($conn);
-    }
+        swalAndGoBack("error", "Invalid", "Invalid update type.");
+        break;
 }
 ?>

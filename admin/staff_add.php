@@ -61,17 +61,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Insert salary
     $insertSalary = $conn->prepare("INSERT INTO salary (
     salaryID, basicSalary, allowance, staffID
-) VALUES (?, ?, ?, ?)");
+  ) VALUES (?, ?, ?, ?)");
     $allowance = 100;
     $insertSalary->bind_param("iddi", $salaryID, $salary, $allowance, $staffID);
 
     // Insert user
     $insertUser = $conn->prepare("INSERT INTO user (
-    userEmail, userPassword, category
-) VALUES (?, ?, ?)");
+    userEmail, userID, userPassword, category
+) VALUES (?, ?, ?, ?)");
     $userPassword = 'newuser';
     $category = 'staff';
-    $insertUser->bind_param("sss", $email, $userPassword, $category);
+    $insertUser->bind_param("ssss", $email, $staffID, $userPassword, $category);
 
     // Insert payroll
     $insertPayroll = $conn->prepare("INSERT INTO payroll (
@@ -84,28 +84,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $insertPayroll->bind_param("iissddi", $payrollID, $salaryID, $payDate, $bonus, $deduction, $netsalary, $staffID);
 
     // Insert performance
-    $insertPerformance = $conn->prepare("INSERT INTO performance (
-    performID, staffID, evaluatorName, evaluateDate, remarks, status
-) VALUES (?, ?, ?, ?, ?, ?)");
-    $evaluatorName = '0';
-    $evaluateDate = '0';
-    $remarks = '0';
-    $status = '0';
-    $insertPerformance->bind_param("iissss", $performanceID, $staffID, $evaluatorName, $evaluateDate, $remarks, $status);
+//     $insertPerformance = $conn->prepare("INSERT INTO performance (
+//     performID, staffID, evaluatorName, evaluateDate, remarks, status
+// ) VALUES (?, ?, ?, ?, ?, ?)");
+//     $evaluatorName = '0';
+//     $evaluateDate = '0';
+//     $remarks = '0';
+//     $status = '0';
+//     $insertPerformance->bind_param("iissss", $performanceID, $staffID, $evaluatorName, $evaluateDate, $remarks, $status);
 
     // Insert request update
-    $insertUpdate = $conn->prepare("INSERT INTO request_update (
-    updateID, inbox, status, staffID
-) VALUES (?, ?, ?, ?)");
-    $inbox = '0';
-    $updateStatus = '0';
-    $insertUpdate->bind_param("issi", $updateID, $inbox, $updateStatus, $staffID);
+//     $insertUpdate = $conn->prepare("INSERT INTO request_update (
+//     updateID, inbox, status, staffID, adminID
+// ) VALUES (?, ?, ?, ?)");
+//     $inbox = '0';
+//     $updateStatus = '0';
+//     $adminIDrequest = '0';
+//     $insertUpdate->bind_param("issii", $updateID, $inbox, $updateStatus,$staffID, $adminIDrequest);
 
     // Insert department
     $insertDepartment = $conn->prepare("INSERT INTO department (
     departmentID, departmentType, role, place
 ) VALUES (?, ?, ?, ?)");
-    $place = 'idk';
+    $place = 'HQ';
     $insertDepartment->bind_param("isss", $departmentID, $department, $role, $place);
 
     // Execute all
@@ -113,8 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $salaryResult = $insertSalary->execute();
     $userResult = $insertUser->execute();
     $payrollResult = $insertPayroll->execute();
-    $performanceResult = $insertPerformance->execute();
-    $updateResult = $insertUpdate->execute();
     $departmentResult = $insertDepartment->execute();
 
 
@@ -123,10 +122,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-    if ($staffResult && $salaryResult && $userResult && $payrollResult && $performanceResult && $updateResult && $departmentResult) {
-      echo "<script>alert('Staff Added Successfully');
-              window.history.back();
-              </script>";
+    if ($staffResult && $salaryResult && $userResult && $payrollResult  && $departmentResult) {
+      echo "<html>
+    <head>
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <link rel='stylesheet' href='../css/view_staff.css'>
+    </head>
+    <body>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Added',
+                text: 'Staff successfully Added',
+                confirmButtonText: 'Back'
+            }).then(() => {
+                window.history.back();
+            });
+        </script>
+    </body>
+    </html>";
     } else {
       echo "<script>alert('Database Error: " . mysqli_error($conn) . "');</script>";
     }
@@ -149,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/sidebar.css">
   <link rel="stylesheet" href="../css/staff_add.css">
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -159,16 +173,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="row justify-content-center">
       <div class="col-lg-10">
         <div class="card p-4" >
-          <form method="post" enctype="multipart/form-data">
+          <form method="post" enctype="multipart/form-data" action="">
 
             <div class="row mb-3">
               <div class="col-md-4">
                 <label for="firstName" class="form-label">First Name</label>
-                <input type="text" class="form-control" name="fname" id="firstName" required>
+                <input type="text" class="form-control" name="fname" id="firstName" placeholder="First Name" required>
               </div>
               <div class="col-md-4">
                 <label for="lastName" class="form-label">Last Name</label>
-                <input type="text" class="form-control" name="lname" id="lastName" required>
+                <input type="text" class="form-control" name="lname" id="lastName" placeholder="Last Name" required>
               </div>
               <div class="col-md-4">
                 <label for="dob" class="form-label">Date of Birth</label>
@@ -179,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row mb-3">
               <div class="col-md-4">
                 <label for="phone" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" name="pnum" id="phone" required>
+                <input type="text" class="form-control" name="pnum" id="phone" placeholder="Phone Number" required>
               </div>
               <div class="col-md-4">
                 <label for="email" class="form-label">Company Email</label>
@@ -218,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
               <div class="col-md-4">
                 <label for="staffIC" class="form-label">Staff IC</label>
-                <input type="text" class="form-control" name="staffIC" id="staffIC" required>
+                <input type="text" class="form-control" name="staffIC" id="staffIC" placeholder="Eg: XXXX-XX-XXXX" required>
               </div>
               <div class="col-md-4">
                 <label for="salary" class="form-label">Salary (RM)</label>
@@ -236,7 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row mb-3">
               <div class="col-md-12">
                 <label for="address1" class="form-label">Address Line 1</label>
-                <input type="text" class="form-control" name="address1" id="address1" required>
+                <input type="text" class="form-control" name="address1" id="address1" placeholder="Address Line 1" required>
               </div>
             </div>
             <div class="row mb-3">
@@ -248,15 +262,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row mb-4">
               <div class="col-md-4">
                 <label for="postcode" class="form-label">Postcode</label>
-                <input type="text" class="form-control" name="postcode" id="postcode" required>
+                <input type="text" class="form-control" name="postcode" id="postcode" placeholder="Postcode" required>
               </div>
               <div class="col-md-4">
                 <label for="state" class="form-label">State</label>
-                <input type="text" class="form-control" name="state" id="state" required>
+                <input type="text" class="form-control" name="state" id="state" placeholder="State" required>
               </div>
               <div class="col-md-4">
                 <label for="country" class="form-label">Country</label>
-                <input type="text" class="form-control" name="country" id="country" required>
+                <input type="text" class="form-control" name="country" id="country" placeholder="Country" required>
               </div>
             </div>
 

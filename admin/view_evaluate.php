@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="../css/view_staff.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     
@@ -74,10 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td><?php echo $row['evaluateeID']; ?></td>
                     <td><?php echo $row['evaluateDate']; ?></td>
                     <td>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#remarks<?php echo $row['performID']; ?>">View</button>
-                        <div id="remarks<?php echo $row['performID']; ?>" class="collapse mt-2">
-                            <textarea class="form-control" rows="5" readonly><?php echo $row['remarks']; ?></textarea>
-                        </div>
+                          <form action="?page=view_inbox" method="POST">
+                                    <input type="hidden" name="performID" value="<?php echo $row['performID'] ?>">
+                                    <input type="hidden" name="type" value="performance">
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="fa-solid fa-eye"></i> View 
+                                    </button>
+                                </form>
                     </td>
                     <td>
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">

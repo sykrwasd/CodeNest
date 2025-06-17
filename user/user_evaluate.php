@@ -20,7 +20,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $performanceResult = mysqli_query($conn, $insertPerformance);
 
     if ($performanceResult) {
-        echo "<script>alert('Evaluation submitted successfully.'); window.location.href = window.location.href;</script>";
+        echo "<html>
+    <head>
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <link rel='stylesheet' href='../css/view_staff.css'>
+    </head>
+    <body>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Added',
+                text: 'Evaluation successfully Added',
+                confirmButtonText: 'Back'
+            }).then(() => {
+                window.history.back();
+            });
+        </script>
+    </body>
+    </html>";
     } else {
         echo "<script>alert('Database error: " . mysqli_error($conn) . "');</script>";
     }
@@ -37,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/view_staff.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container p-4 border rounded shadow-sm bg-white mt-5" style="max-width: 900px;">

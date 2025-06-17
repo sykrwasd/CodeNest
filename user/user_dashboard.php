@@ -7,7 +7,6 @@ $viewQuery = $conn->prepare('SELECT * FROM staff WHERE staffID = ?');
 $viewQuery->bind_param('s', $emailID); 
 $viewQuery->execute();
 $result = $viewQuery->get_result();
-
 while ($row = $result->fetch_assoc()) {
 ?>
 
@@ -117,53 +116,10 @@ while ($row = $result->fetch_assoc()) {
                             <p class="mb-0 fw-bold"><?php echo htmlspecialchars($row['staffHireDate']); ?></p>
                         </div>
                     </div>
+                    
                 </div>
             </div>
 
-            <!-- Analytics Section -->
-            <div class="card mt-2">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Work Analytics</h5>
-                </div>
-                <div class="card-body">
-                    <!-- Statistics Cards -->
-                    <div class="row mb-4">
-                        <div class="col-md-3 mb-3">
-                            <div class="card bg-primary text-white">
-                                <div class="card-body">
-                                    <h6 class="card-title">Pending Request</h6>
-                                    <h3 class="mb-0"></h3>
-                                    <small>Number of Pending Request</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card bg-success text-white">
-                                <div class="card-body">
-                                    <h6 class="card-title">Approved Request</h6>
-                                    <h3 class="mb-0"></h3>
-                                    <small>Number of Approved Request</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card bg-info text-white">
-                                <div class="card-body">
-                                    <h6 class="card-title">Attendance</h6>
-                                    <h3 class="mb-0">95%</h3>
-                                    <small>This Month</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card bg-warning text-white">
-                                <div class="card-body">
-                                    <h6 class="card-title">Projects</h6>
-                                    <h3 class="mb-0">3</h3>
-                                    <small>Active</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            
 
 <?php } ?>

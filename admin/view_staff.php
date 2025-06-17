@@ -20,6 +20,7 @@ include('../config/database.php');
     crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="../css/view_staff.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -42,7 +43,7 @@ include('../config/database.php');
         $viewQuery->execute();
         $result = $viewQuery->get_result();
         while ($row = $result->fetch_assoc()) {
-        ?>
+          ?>
           <tr>
             <td><img src="../img/<?php echo $row['staffPicture']; ?>" width="90" height="90" /></td>
             <td><?php echo $row['staffFullName']; ?></td>
@@ -50,26 +51,31 @@ include('../config/database.php');
             <td><?php echo $row['staffEmail']; ?></td>
             <td><?php echo $row['staffHireDate']; ?></td>
             <td class="text-center">
-              
+
               <form action="../functions/delete.php" method="post" class="d-inline-block">
                 <input type="hidden" name="staffID" value="<?php echo $row['staffID'] ?>">
                 <input type="hidden" name="type" value="staff">
                 <button type="submit" name="delete" class="btn btn-danger btn-sm">
-                  <i class="fa-solid fa-trash"></i> Delete Staff
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </form>
+              <form action="?page=update_staff" method="post" class="d-inline-block">
+                <input type="hidden" name="staffID" value="<?php echo $row['staffID'] ?>">
+                <input type="hidden" name="type" value="staff">
+                <button type="submit" name="delete" class="btn btn-success btn-sm">
+                  <i class="fa-solid fa-pen"></i>
                 </button>
               </form>
             </td>
           </tr>
         <?php } ?>
-        
+
       </tbody>
     </table>
   </div>
 
   <div class="text-center my-3">
-   <a href="?page=update_staff" class="btn btn-success btn-sm">
-  <i class="fa-solid fa-pen"></i> Edit Staff
-</a>
+
 
     <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staffModal">
       <i class="fa-solid fa-eye"></i> View Full Details
@@ -101,7 +107,7 @@ include('../config/database.php');
               $viewQuery->execute();
               $result = $viewQuery->get_result();
               while ($row = $result->fetch_assoc()) {
-              ?>
+                ?>
                 <tr>
                   <td><img src="../img/<?php echo $row['staffPicture']; ?>" width="90" height="90" /></td>
                   <td><?php echo $row['staffAddress']; ?></td>
@@ -120,15 +126,15 @@ include('../config/database.php');
     </div>
   </div>
 
-  
-  <!-- JS Dependencies -->
+
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
     crossorigin="anonymous"></script>
   <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.min.js"></script>
   <script src="../js/script.js"></script>
-  
+
 </body>
 
 </html>

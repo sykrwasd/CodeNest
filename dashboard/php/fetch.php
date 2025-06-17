@@ -1,74 +1,68 @@
 <?php
-
 include '../../config/database.php';
 
 $data = [];
 
-// Get total staff
-$sql = "SELECT COUNT(*) AS total_staff FROM staff";
+// Total staff
+$sql = "SELECT COUNT(*) AS total_staff FROM staff"; // 2
 $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $data['total_staff'] = $row['total_staff'];
+    $data['total_staff'] = $result->fetch_assoc()['total_staff'];
 }
 
-// Get total request
+// Total request
 $sql = "SELECT COUNT(*) AS total_request FROM request_updates";
 $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $data['total_request'] = $row['total_request'];
+    $data['total_request'] = $result->fetch_assoc()['total_request'];
 }
 
-// Get total evaluation
+// Total evaluation
 $sql = "SELECT COUNT(*) AS total_eval FROM performance";
 $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $data['total_eval'] = $row['total_eval'];
+    $data['total_eval'] = $result->fetch_assoc()['total_eval'];
 }
 
-
-
-// Get total Factory staff
-$sql = "SELECT COUNT(*) AS total_service FROM staff WHERE staffDepartment = 'Service'";
-$result = $conn->query($sql);
-if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $data['service'] = $row['total_service'];
+// Staff by department
+$departments = ['Sales', 'Accounting', 'Marketing'];
+foreach ($departments as $dept) {
+    $sql = "SELECT COUNT(*) AS total FROM staff WHERE staffDepartment = '$dept'";
+    $result = $conn->query($sql);
+    if ($result && $result->num_rows > 0) {
+        $data[strtolower($dept)] = $result->fetch_assoc()['total'];
+    }
 }
 
-// Get total Accounting staff
-$sql = "SELECT COUNT(*) AS total_accounting FROM staff WHERE staffDepartment = 'Accounting'";
-$result = $conn->query($sql);
-if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $data['accounting'] = $row['total_accounting'];
-}
-
-// Get total Marketing staff
-$sql = "SELECT COUNT(*) AS total_marketing FROM staff WHERE staffDepartment = 'Marketing'";
-$result = $conn->query($sql);
-if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $data['marketing'] = $row['total_marketing'];
-}
-
-// Get total Read
-$sql = "SELECT COUNT(*) AS total_read FROM request_updates WHERE status = 'Read'";
+// Request status
+$sql = "SELECT 
+    SUM(status = 'Read') AS total_read, 
+    SUM(status = 'Unread') AS total_unread 
+    FROM request_updates";
 $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $data['total_read'] = $row['total_read'];
-}
-
-// Get total Unread
-$sql = "SELECT COUNT(*) AS total_unread FROM request_updates WHERE status = 'Unread'";
-$result = $conn->query($sql);
-if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
     $data['total_unread'] = $row['total_unread'];
 }
+
+// Monthly payroll summary
+$sql = "SELECT 
+  DATE_FORMAT(payDate, '%b') AS month, 
+  MONTH(payDate) AS month_num,
+  SUM(netsalary + bonus - deduction) AS total_payroll,
+  SUM(bonus) AS total_bonus,
+  SUM(deduction) AS total_deduction
+  FROM payroll
+  GROUP BY MONTH(payDate)
+  ORDER BY MONTH(payDate)";
+
+$result = $conn->query($sql);
+$monthlyPayroll = [];
+while ($row = $result->fetch_assoc()) {
+    $monthlyPayroll[] = $row;
+}
+$data['monthly_payroll'] = $monthlyPayroll;
 
 
 // Fetch 
@@ -83,8 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SELECT staff.*, payroll.*
             FROM staff 
             INNER JOIN payroll ON staff.staffID = payroll.staffID
-            WHERE staff.staffID = ? AND DATE_FORMAT(payroll.payDate, '%Y-%m') = ?");
-        $query->bind_param("ss", $staffID, $date);
+            WHERE staff.staffID = '$staffID' AND DATE_FORMAT(payroll.payDate, '%Y-%m') = '$date'");
         $query->execute();
         $result = $query->get_result();
 
@@ -100,8 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SELECT p.*, s.staffFullName 
             FROM payroll p 
             INNER JOIN staff s ON p.staffID = s.staffID
-            WHERE DATE_FORMAT(p.payDate, '%Y-%m') = ?");
-        $query->bind_param("s", $date);
+            WHERE DATE_FORMAT(p.payDate, '%Y-%m') = '$date'");
         $query->execute();
         $result = $query->get_result();
 
@@ -117,8 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
-// Set header and return JSON
+// Output all data as JSON
 header('Content-Type: application/json');
 echo json_encode($data);
 ?>

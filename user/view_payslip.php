@@ -1,7 +1,4 @@
-<?php include '../config/database.php'; ?>
-
-
-<?php
+<?php include '../config/database.php'; 
 $id = $_SESSION['staffID'];
 //print_r($_SESSION);
 $sql = "SELECT * 
@@ -28,6 +25,7 @@ while($row = mysqli_fetch_array($query)) {
     integrity="sha512-pO3Cz4PiODsjixgH0M3mqJe6Vrx/ovOW3BJ6Fx3Xy7eRO1THXt/1zLQ7u+XDfM80Rk8+3nj2yl1p8S2bW2E1Lg==" 
     crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container ">
@@ -69,8 +67,8 @@ while($row = mysqli_fetch_array($query)) {
                 </thead>
                 <tbody>
                     <tr><td>KWSP (11%)</td><td><?php echo number_format($kwsp, 2); ?></td></tr>
-                    <tr><td>SOCSO (0.2%)</td><td><?php echo number_format($socso, 2); ?></td></tr>
-                    <tr><td>EIS (0.5%)</td><td><?php echo number_format($eis, 2); ?></td></tr>
+                    <tr><td>SOCSO (0.002%)</td><td><?php echo number_format($socso, 2); ?></td></tr>
+                    <tr><td>EIS (0.005%)</td><td><?php echo number_format($eis, 2); ?></td></tr>
                     <tr class="table-danger"><td><strong>Total Deduction</strong></td><td><strong><?php echo number_format($totalDeduction, 2); ?></strong></td></tr>
                 </tbody>
             </table>

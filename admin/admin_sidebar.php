@@ -1,6 +1,14 @@
 <?php
 session_start();
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; // default page
+
+
+if($_SESSION['category'] != 'admin'){
+    echo '<script>
+        alert("Access denied. Admins only.");
+        window.location.href = "../login.php"; // or redirect somewhere safe
+    </script>';
+}
 ?>
 
 <!DOCTYPE html>
@@ -10,12 +18,13 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; // default page
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Human Resource Admin</title>
+    <title>Naza HR</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
         
     <link rel="stylesheet" href="../css/sidebar.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body style="text-decoration: none;">
@@ -26,7 +35,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard'; // default page
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <div class="sidebar-logo">
-                    <a href="#">Code<span>Nest</span></a>
+                    <a href="#">Naza<span>Corp</span></a>
                 </div>
             </div>
 

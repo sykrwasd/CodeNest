@@ -55,29 +55,29 @@ window.addEventListener("DOMContentLoaded", () => {
 
   updateMonth();
 
-  function fetchStaffData(staffID, formattedDate) {
-    fetch("../dashboard/php/fetch.php", {
-      method: "POST",
+  function fetchStaffData(staffID, formattedDate) { //view payroll user
+    fetch("../dashboard/php/fetch.php", { // send data ke php
+      method: "POST", // method
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: `staffID=${encodeURIComponent(staffID)}&payDate=${encodeURIComponent(formattedDate)}&page=${encodeURIComponent(page)}`,
+      body: `staffID=${encodeURIComponent(staffID)}&payDate=${encodeURIComponent(formattedDate)}&page=${encodeURIComponent(page)}`, //body, apa yang nak disend
     })
-      .then((response) => response.json())
+      .then((response) => response.json()) //tunggu respon
       .then((data) => {
-        if (data.error) {
+        if (data.error) { //kalau takde payslip pada bulan tu
           console.error("Error:", data.error);
         document.getElementById("payslipContainer").innerHTML = `
           <div class="alert alert-warning text-center">
             No record found for this month.
           </div>`;
         } else {
-          console.log("Staff Data:", data);
-          const netSalary = parseFloat(data.netsalary) || 0;
+          console.log("Staff Data:", data); // debug purposes
+          const netSalary = parseFloat(data.netsalary) || 0; //convert kepada float
           const bonus = parseFloat(data.bonus) || 0;
           const deduction = parseFloat(data.deduction) || 0;
 
-          const totalPayment = (netSalary + bonus - deduction).toFixed(2);
+          const totalPayment = (netSalary + bonus - deduction).toFixed(2); // convert ke titik perpuluhan
 
          
              document.getElementById("payslipContainer").innerHTML = `
@@ -104,27 +104,31 @@ window.addEventListener("DOMContentLoaded", () => {
       .catch((error) => console.error("Fetch error:", error));
   }
 
-function fetchStaffPayroll(staffid, formattedDate) {
-  fetch("../dashboard/php/fetch.php", {
-    method: "POST",
+function fetchStaffPayroll(staffid, formattedDate) {//view payroll admin
+  fetch("../dashboard/php/fetch.php", { // fetch ke file tu untuk retrieve data
+    method: "POST", // method
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `staffID=${encodeURIComponent(staffid)}&payDate=${encodeURIComponent(formattedDate)}&page=payroll`,
+    body: `staffID=${encodeURIComponent(staffid)}&payDate=${encodeURIComponent(formattedDate)}&page=payroll`, //body = benda nak dihantar, kat fetch.php kita boleh read data ni guna $_POST['dataname']
   })
-    .then((response) => response.json())
+    .then((response) => response.json()) //tunggu response dari php,
     .then((data) => {
       if (data.error) {
         console.error("Error:", data.error);
-      } else if (data.length === 0) {
-        document.getElementById("payslipContainer").innerHTML = `
+      } else if (data.length === 0) { //kalau data tu takde, meaning bulan tu dia takde payroll
+        document.getElementById("payslipContainer").innerHTML = ` 
           <div class="alert alert-warning text-center">
             No Payroll found for this month.
-          </div>`;
+          </div>`; // akan keluar yang ni
       } else {
-        let rowsHTML = "";
+        let rowsHTML = ""; //initialized empty string
 
-        data.forEach((staff) => {
+        //data yang di send balik dalam bentuk array, sebabtu kenapa loop thru every index
+        //loop thru every staff/item in data
+        data.forEach((staff) => { 
+
+          // tambah rowsHTML, sampailah dah takde staff 
           rowsHTML += `
             <tr class="text-center">
               <input type="hidden" name="payrollID[]" value="${staff.payrollID}">
@@ -154,7 +158,7 @@ function fetchStaffPayroll(staffid, formattedDate) {
                     </tr>
                   </thead>
                   <tbody id="requestTable">
-                    ${rowsHTML}
+                    ${rowsHTML} 
                   </tbody>
                 </table>
               </div>
@@ -163,12 +167,11 @@ function fetchStaffPayroll(staffid, formattedDate) {
               </div>
             </form>
           </div>`;
+          //^^ add rowsHTML dynamically
       }
     })
     .catch((error) => console.error("Fetch error:", error));
 }
-
-
 
 });
 
