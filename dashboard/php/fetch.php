@@ -73,11 +73,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $page = $_POST['page'];
 
     if ($page == "staff") {
-        $query = $conn->prepare("
-            SELECT staff.*, payroll.*
-            FROM staff 
-            INNER JOIN payroll ON staff.staffID = payroll.staffID
-            WHERE staff.staffID = '$staffID' AND DATE_FORMAT(payroll.payDate, '%Y-%m') = '$date'");
+        $query = $conn->prepare("SELECT staff.*, payroll.*, department.*
+FROM staff
+INNER JOIN payroll ON staff.staffID = payroll.staffID
+INNER JOIN staff_department sd ON staff.staffID = sd.staffID
+INNER JOIN department ON sd.departmentID = department.departmentID
+WHERE staff.staffID = '$staffID' AND DATE_FORMAT(payroll.payDate, '%Y-%m') = '$date'");
+
         $query->execute();
         $result = $query->get_result();
 

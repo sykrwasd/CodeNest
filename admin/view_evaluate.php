@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $evaluateeID = $_POST['e'];
     $evaluateDate = $_POST['date'];
     $remarks = $_POST['remark'];
-    $status = 'Unchecked';
+    $status = 'Read';
 
     $insertPerformance = "INSERT INTO performance (
         performID, evaluatorID, evaluateeID, evaluateDate, remarks, status
@@ -63,8 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </thead>
             <tbody>
                 <?php 
-                $viewQuery = $conn->prepare('SELECT * FROM performance');
+                $viewQuery = $conn->prepare("SELECT * 
+                                            FROM performance p
+                                            JOIN user u ON p.evaluatorID = u.userID
+                                            AND u.category = 'staff'");
                 $viewQuery->execute();
+
                 $result = $viewQuery->get_result();
 
                 while ($row = $result->fetch_assoc()) {

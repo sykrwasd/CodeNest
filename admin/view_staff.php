@@ -103,7 +103,10 @@ include('../config/database.php');
             </thead>
             <tbody>
               <?php
-              $viewQuery = $conn->prepare('SELECT * from staff');
+              $viewQuery = $conn->prepare('SELECT * 
+                                          FROM staff s
+                                          JOIN staff_department sd ON s.staffID = sd.staffID
+                                          JOIN department d ON sd.departmentID = d.departmentID');
               $viewQuery->execute();
               $result = $viewQuery->get_result();
               while ($row = $result->fetch_assoc()) {
@@ -113,7 +116,7 @@ include('../config/database.php');
                   <td><?php echo $row['staffAddress']; ?></td>
                   <td><?php echo $row['staffDOB']; ?></td>
                   <td><?php echo $row['staffIC']; ?></td>
-                  <td><?php echo $row['staffDepartment']; ?></td>
+                  <td><?php echo $row['departmentType']; ?></td>
                 </tr>
               <?php } ?>
             </tbody>

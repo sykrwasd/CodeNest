@@ -3,7 +3,11 @@ include('../config/database.php');
 
 $emailID = $_SESSION['userID'];
 
-$viewQuery = $conn->prepare('SELECT * FROM staff WHERE staffID = ?');
+$viewQuery = $conn->prepare("SELECT * 
+                            FROM staff t
+                            JOIN staff_department r ON t.staffID = r.staffID
+                            JOIN department d ON r.departmentID = d.departmentID
+                            WHERE t.staffID = ?");
 $viewQuery->bind_param('s', $emailID); 
 $viewQuery->execute();
 $result = $viewQuery->get_result();
@@ -62,7 +66,7 @@ while ($row = $result->fetch_assoc()) {
                         <span class="position-absolute bottom-0 end-0 bg-success rounded-circle p-2 border border-white"></span>
                     </div>
                     <h3 class="mb-1"><?php echo htmlspecialchars($row['staffFullName']); ?></h3>
-                    <p class="text-muted mb-3"><?php echo htmlspecialchars($row['staffDepartment']); ?></p>
+                    <p class="text-muted mb-3"><?php echo htmlspecialchars($row['departmentType']); ?></p>
                     
                 </div>
             </div>

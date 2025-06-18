@@ -72,26 +72,57 @@ switch ($type) {
         $department = $_POST['department'];
         $staffIC = $_POST['staffIC'];
         $address = $_POST['address1'];
+        $id = $_POST['id'];
 
         $query = "UPDATE staff 
-                  SET staffFullName = ?, 
-                      staffDOB = ?, 
-                      staffNoPhone = ?, 
-                      staffDepartment = ?, 
-                      staffAddress = ?
-                  WHERE staffIC = ?";
+                SET staffFullName = ?, 
+                    staffDOB = ?, 
+                    staffNoPhone = ?, 
+                    staffAddress = ?
+                WHERE staffIC = ?";
 
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ssssss", $fullName, $dob, $phone, $department, $address, $staffIC);
+        if (!$stmt) {
+            die("Prepare failed for staff update: " . $conn->error);
+        }
+
+        $stmt->bind_param("sssss", $fullName, $dob, $phone, $address, $staffIC);
         $result = $stmt->execute();
 
-        if ($result) {
-            swalAndRedirect("success", "Success", "Staff updated successfully.", "../admin/admin_sidebar.php?page=view_staff");
+        $querySelect = "SELECT d.departmentID 
+                        FROM staff s
+                        JOIN staff_department sd ON s.staffID = sd.staffID
+                        JOIN department d ON sd.departmentID = d.departmentID
+                        WHERE s.staffID = ?";
+        $stmtSelect = $conn->prepare($querySelect);
+        $stmtSelect->bind_param("i", $id);
+        $stmtSelect->execute();
+        $resultSelect = $stmtSelect->get_result();
+
+        if ($row = $resultSelect->fetch_assoc()) {
+        $departmentID = $row['departmentID'];
+
+        // 2. UPDATE departmentType berdasarkan departmentID
+        $queryUpdate = "UPDATE department SET departmentType = ? WHERE departmentID = ?";
+        $stmtUpdate = $conn->prepare($queryUpdate);
+        $stmtUpdate->bind_param("si", $department, $departmentID);
+        $stmtUpdate->execute();
+
+        if ($result && $stmtUpdate) {
+        swalAndRedirect("success", "Success", "Staff updated successfully.", "../admin/admin_sidebar.php?page=view_staff");
         } else {
-            swalAndGoBack("error", "Error", "Error updating staff data: " . $stmt->error);
-        }
-        $stmt->close();
-        break;
+        // Kita buat error message yang selamat
+        $errorMsg = "Error updating staff data: ";
+        if (!$result) $errorMsg .= $stmt->error;
+        if (!$stmtUpdate) $errorMsg .= " | Department Error: " . $stmt1->error;
+
+        swalAndGoBack("error", "Error", $errorMsg);
+    }
+
+    $stmt->close();
+    $stmtUpdate->close();
+    break;
+    }
 
     case 'performance':
         $performID = $_POST['performID'];

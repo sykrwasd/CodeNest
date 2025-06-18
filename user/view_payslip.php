@@ -2,9 +2,11 @@
 $id = $_SESSION['staffID'];
 //print_r($_SESSION);
 $sql = "SELECT * 
-        FROM salary 
-        INNER JOIN staff ON salary.staffID = staff.staffID 
-        WHERE staff.staffID = '$id'";
+        FROM salary s
+        JOIN staff t ON s.staffID = t.staffID
+        JOIN staff_department r ON t.staffID = r.staffID
+        JOIN department d ON r.departmentID = d.departmentID
+        WHERE s.staffID = '$id'";
 $query = mysqli_query($conn, $sql);
 
 while($row = mysqli_fetch_array($query)) {
@@ -40,7 +42,7 @@ while($row = mysqli_fetch_array($query)) {
             <table class="table table-sm">
                 <tr><td>Staff ID</td><td>: <?php echo $row['staffID']; ?></td></tr>
                 <tr><td>Name</td><td>: <?php echo $row['staffFullName']; ?></td></tr>
-                <tr><td>Department</td><td>: <?php echo $row['staffDepartment']; ?></td></tr>
+                <tr><td>Department</td><td>: <?php echo $row['departmentType']; ?></td></tr>
                 <tr><td>Hire Date</td><td>: <?php echo $row['staffHireDate']; ?></td></tr>
             </table>
         </div>

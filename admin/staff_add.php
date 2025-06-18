@@ -54,9 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Insert staff
     $insertStaff = $conn->prepare("INSERT INTO staff (
     staffEmail, staffID, staffFullName, staffNoPhone, staffAddress, 
-    staffDOB, staffIC, staffHireDate, staffDepartment, staffPicture
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $insertStaff->bind_param("sissssssss", $email, $staffID, $fullname, $pnum, $fulladdress, $dob, $staffIC, $hireDate, $department, $imageName);
+    staffDOB, staffIC, staffHireDate, staffPicture
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $insertStaff->bind_param("sisssssss", $email, $staffID, $fullname, $pnum, $fulladdress, $dob, $staffIC, $hireDate, $imageName);
 
     // Insert salary
     $insertSalary = $conn->prepare("INSERT INTO salary (
@@ -73,15 +73,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $category = 'staff';
     $insertUser->bind_param("ssss", $email, $staffID, $userPassword, $category);
 
+    $insertSd = $conn->prepare("INSERT INTO staff_department (
+    staffID, departmentID
+) VALUES (?, ?)");
+    $insertSd->bind_param("is", $staffID, $departmentID);
+
+
     // Insert payroll
-    $insertPayroll = $conn->prepare("INSERT INTO payroll (
+    /*$insertPayroll = $conn->prepare("INSERT INTO payroll (
     payrollID, salaryID, payDate, bonus, deduction, netsalary, staffID
 ) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $payDate = '0';
     $bonus = 0;
     $deduction = 0;
     $netsalary = 0;
-    $insertPayroll->bind_param("iissddi", $payrollID, $salaryID, $payDate, $bonus, $deduction, $netsalary, $staffID);
+    $insertPayroll->bind_param("iissddi", $payrollID, $salaryID, $payDate, $bonus, $deduction, $netsalary, $staffID);*/
 
     // Insert performance
 //     $insertPerformance = $conn->prepare("INSERT INTO performance (
@@ -104,16 +110,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Insert department
     $insertDepartment = $conn->prepare("INSERT INTO department (
-    departmentID, departmentType, role, place
-) VALUES (?, ?, ?, ?)");
-    $place = 'HQ';
-    $insertDepartment->bind_param("isss", $departmentID, $department, $role, $place);
+    departmentID, departmentType, role
+) VALUES (?, ?, ?)");
+    $insertDepartment->bind_param("iss", $departmentID, $department, $role);
 
     // Execute all
     $staffResult = $insertStaff->execute();
     $salaryResult = $insertSalary->execute();
     $userResult = $insertUser->execute();
-    $payrollResult = $insertPayroll->execute();
+    $sdResult = $insertSd->execute();
     $departmentResult = $insertDepartment->execute();
 
 
@@ -122,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-    if ($staffResult && $salaryResult && $userResult && $payrollResult  && $departmentResult) {
+    if ($staffResult && $salaryResult && $userResult && $sdResult  && $departmentResult) {
       echo "<html>
     <head>
         <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>

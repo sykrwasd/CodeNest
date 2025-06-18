@@ -35,6 +35,7 @@ while ($row = $result->fetch_assoc()){
     <div class="card-body">
       <form method="post" action="../functions/update.php" enctype="multipart/form-data">
         <input type="hidden" name="type" value="staff">
+         <input type="hidden" name="id" value="<?= $row['staffID']; ?>">
 
 
         <div class="row mb-3">

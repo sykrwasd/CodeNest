@@ -9,9 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $staffID = $_POST['id'];
 
     $sql = "SELECT * 
-            FROM salary 
-            INNER JOIN staff ON salary.staffID = staff.staffID 
-            WHERE staff.staffID = '$staffID'";
+        FROM salary s
+        JOIN staff t ON s.staffID = t.staffID
+        JOIN staff_department r ON t.staffID = r.staffID
+        JOIN department d ON r.departmentID = d.departmentID
+        WHERE s.staffID = '$staffID'";
     $result = mysqli_query($conn, $sql);
 
     if ($row = mysqli_fetch_assoc($result)) {
@@ -25,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $payslipData = [
             'staffID' => $row['staffID'],
             'staffFullName' => $row['staffFullName'],
-            'staffDepartment' => $row['staffDepartment'],
+            'staffDepartment' => $row['departmentType'],
             'staffHireDate' => $row['staffHireDate'],
             'basicSalary' => $row['basicSalary'],
             'allowance' => $row['allowance'],

@@ -88,7 +88,7 @@ window.addEventListener("DOMContentLoaded", () => {
               <div class="card-body">
                 <table class="table table-borderless">
                   <tr><th>Staff ID:</th><td>${data.staffFullName}</td></tr>
-                  <tr><th>Deparment:</th><td>${data.staffDepartment}</td></tr>
+                  <tr><th>Deparment:</th><td>${data.departmentType}</td></tr>
                   <tr><th>Net Salary:</th><td>RM${netSalary}</td></tr>
                   <tr><th>Bonus:</th><td>RM${bonus}</td></tr>
                   <tr><th>Deduction:</th><td>RM${deduction}</td></tr>

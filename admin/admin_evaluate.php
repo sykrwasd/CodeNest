@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $evaluateeID = $_POST['e'];
     $evaluateDate = $_POST['date'];
     $remarks = $_POST['remark'];
-    $status = 'Unchecked';
+    $status = 'Read';
 
 
 
